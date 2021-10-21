@@ -1,19 +1,19 @@
 package com.getdonuts.digibooky.api.dto;
 
-public class MemberDto {
-    private final String id;
+public class CreateUserDto {
+    private final String inss;
     private final String firstName;
-    private final String lastname;
+    private final String lastName;
     private final String email;
     private final String street;
     private final String houseNumber;
     private final String city;
     private final String postcode;
 
-    public MemberDto(String id, String firstName, String lastname, String email, String street, String houseNumber, String city, String postcode) {
-        this.id = id;
+    public CreateUserDto(String inss, String firstName, String lastName, String email, String street, String houseNumber, String city, String postcode) {
+        this.inss = inss;
         this.firstName = firstName;
-        this.lastname = lastname;
+        this.lastName = lastName;
         this.email = email;
         this.street = street;
         this.houseNumber = houseNumber;
@@ -21,16 +21,16 @@ public class MemberDto {
         this.postcode = postcode;
     }
 
-    public String getId() {
-        return id;
+    public String getInss() {
+        return inss;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {
