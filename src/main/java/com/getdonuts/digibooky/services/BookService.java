@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class BookService {
     }
 
     private boolean checkForRegexMatch(String regex, String target){
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(target);
         return matcher.find();
     }
@@ -49,6 +50,15 @@ public class BookService {
         return getAllBooks().stream()
                 .filter(bookDto -> checkForRegexMatch(titleRegex, bookDto.getTitle()))
                 .collect(Collectors.toList());
+    }
+
+    public Collection<BookDto> getBookByAuthor(String firstname, String lastname) {
+        System.out.println("I received " + firstname + " " + lastname);
+        return getAllBooks().stream()
+                .filter(bookDto -> checkForRegexMatch(firstname, bookDto.getAuthor().getFirstName()))
+                .filter(bookDto -> checkForRegexMatch(lastname, bookDto.getAuthor().getLastName()))
+                .collect(Collectors.toList());
+
     }
 
     public boolean validateISBN(String ISBN) {

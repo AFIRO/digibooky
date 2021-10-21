@@ -45,4 +45,13 @@ public class BookController {
     public Collection<BookDto> getBookByTitleWithRegex(@RequestParam(value = "title") String titleRegex){
         return bookService.getBookWithRegexTitle(titleRegex);
     }
+
+    @GetMapping(produces = "application/json", path = "/search" /*, params = {"firstName", "lastName"}*/)
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<BookDto> getBookByAuthor(
+            @RequestParam(name = "firstName", required = false, defaultValue = "") String firstname,
+            @RequestParam(name = "lastName", required = false, defaultValue = "") String lastname){
+        System.out.println("I received your request");
+        return bookService.getBookByAuthor(firstname, lastname);
+    }
 }
