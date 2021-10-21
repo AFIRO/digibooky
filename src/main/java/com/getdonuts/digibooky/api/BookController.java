@@ -36,7 +36,7 @@ public class BookController {
 
     @GetMapping(produces = "application/json", path = "/search", params = "isbn")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<BookDto> getBookWithRegexIsbn(@PathVariable String isbnRegex) {
+    public Collection<BookDto> getBookWithRegexIsbn(@RequestParam(value = "isbn") String isbnRegex) {
         return bookService.getBookWithRegexIsbn(isbnRegex);
     }
 
