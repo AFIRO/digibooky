@@ -1,5 +1,6 @@
 package com.getdonuts.digibooky.services;
 import com.getdonuts.digibooky.api.dto.CreateMemberDTO;
+import com.getdonuts.digibooky.api.dto.MemberDTO;
 import com.getdonuts.digibooky.domain.Member;
 import com.getdonuts.digibooky.repository.MemberRepository;
 import com.getdonuts.digibooky.services.mapper.MemberMapper;
@@ -66,9 +67,8 @@ public class MemberService {
         return true;
     }
 
-    public Member saveMember(CreateMemberDTO createMemberDTO) {
+    public MemberDTO saveMember(CreateMemberDTO createMemberDTO) {
         Member createdMember = createMember(createMemberDTO);
-        repo.addMember(createdMember);
-        return createdMember;
+        return memberMapper.toDTO(repo.addMember(createdMember));
     }
 }

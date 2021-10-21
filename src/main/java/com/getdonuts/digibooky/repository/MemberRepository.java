@@ -17,8 +17,9 @@ public class MemberRepository {
         members = new ConcurrentHashMap<>();
     }
 
-    public void addMember(Member member) {
+    public Member addMember(Member member) {
         members.put(member.getId(), member);
+        return member;
     }
 
     public void removeMember(String id) {

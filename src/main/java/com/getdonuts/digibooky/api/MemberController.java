@@ -13,18 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/members")
 public class MemberController {
     private final MemberService memberService;
-    private  final MemberMapper memberMapper;
 
     @Autowired
-    public MemberController(MemberService memberService, MemberMapper memberMapper) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.memberMapper = memberMapper;
     }
 
     @PostMapping(produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberDTO createMember(@RequestBody CreateMemberDTO DTO) {
-        return memberMapper.toDTO(memberService.saveMember(DTO));
+        return memberService.saveMember(DTO);
     }
 
 }
