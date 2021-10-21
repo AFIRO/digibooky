@@ -1,11 +1,12 @@
 package com.getdonuts.digibooky.domain;
 
 import com.getdonuts.digibooky.exceptions.InvalidEmailException;
-import com.getdonuts.digibooky.services.EmailService;
+import com.getdonuts.digibooky.services.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MemberTest {
 
@@ -21,7 +22,7 @@ class MemberTest {
     private Address address;
 
 
-    @BeforeEach
+ //   @BeforeEach
     void setUp() {
         address = new Address(street, houseNr, postalCode, city);
         member = new Member(inss, firstName, lastName, email, address);
@@ -32,7 +33,7 @@ class MemberTest {
         //when
         String email1 = "test@test.be";
         //then
-        assertTrue(EmailService.isValid(email1));
+        assertTrue(MemberService.isEmailValid(email1));
     }
 
     @Test
@@ -45,12 +46,12 @@ class MemberTest {
         String email6 = "test@@test.be";
         String email7 = "te.st@te.st";
         //then
-        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email2));
-        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email3));
-        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email4));
-        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email5));
-        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email6));
-        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email7));
+        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email2));
+        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email3));
+        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email4));
+        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email5));
+        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email6));
+        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email7));
     }
 
     @Test
