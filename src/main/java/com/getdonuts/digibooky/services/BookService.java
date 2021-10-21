@@ -27,9 +27,6 @@ public class BookService {
     }
 
     public BookWithSummaryDto getBook(String isbn){
-        if(isbn == null || isbn.isEmpty()){
-            throw new IllegalArgumentException("ISBN should not be empty");
-        }
         return bookMapper.mapToBookWithSummaryDto(bookRepository.getBook(isbn));
     }
 }
