@@ -22,20 +22,20 @@ class MemberTest {
     private MemberService ms;
 
 
-    @BeforeAll
+/*    @BeforeAll
     void setUp() {
         address = new Address(street, houseNr, postalCode, city);
         member = new Member(inss, firstName, lastName, email, address);
         ms = new MemberService();
-    }
+    }*/
 
-    @Test
-    void emailAddressValidatorWorks() {
-        //when
-        String email1 = "test@test.be";
-        //then
-        assertTrue(ms.isEmailValid(email1));
-    }
+//    @Test
+//    void emailAddressValidatorWorks() {
+//        //when
+//        String email1 = "test@test.be";
+//        //then
+//        assertTrue(ms.isEmailValid(email1));
+//    }
 
 /*    @Test
     void emailAddressValidatorThrowsExceptionWhenGivenInvalidEmail() {
