@@ -1,15 +1,14 @@
 package com.getdonuts.digibooky.domain;
 
-import com.getdonuts.digibooky.services.MemberService;
-import org.junit.jupiter.api.BeforeAll;
+import com.getdonuts.digibooky.services.UserService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MemberTest {
+class UserTest {
 
-    private Member member;
+    private User user;
     private String inss = "TestValue";
     private String firstName = "TestFirstName";
     private String lastName = "TestLastName";
@@ -19,7 +18,7 @@ class MemberTest {
     private String postalCode = "1000";
     private String city = "TestCity";
     private Address address;
-    private MemberService ms;
+    private UserService ms;
 
 
 /*    @BeforeAll

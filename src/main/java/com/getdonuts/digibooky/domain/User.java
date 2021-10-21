@@ -2,7 +2,7 @@ package com.getdonuts.digibooky.domain;
 
 import java.util.UUID;
 
-public class Member {
+public class User {
 
     private String INSS;
     private String firstName;
@@ -10,9 +10,12 @@ public class Member {
     private String id;
     private String email;
     private Address address;
+    private boolean isAdmin;
+    private boolean isLibrarian;
+    private boolean isMember;
 
 
-    public Member(String INSS, String firstName, String lastName, String email, Address address) {
+    public User(String INSS, String firstName, String lastName, String email, Address address) {
         this.id = UUID.randomUUID().toString();
         this.INSS = INSS;
         this.firstName = firstName;
@@ -20,7 +23,6 @@ public class Member {
         this.email = email;
         this.address = address;
     }
-
 
     public String getINSS() {
         return INSS;
@@ -46,5 +48,27 @@ public class Member {
         return address;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 
+    public boolean isLibrarian() {
+        return isLibrarian;
+    }
+
+    public boolean isMember() {
+        return isMember;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public void setLibrarian(boolean librarian) {
+        isLibrarian = librarian;
+    }
+
+    public void setMember(boolean member) {
+        isMember = member;
+    }
 }
