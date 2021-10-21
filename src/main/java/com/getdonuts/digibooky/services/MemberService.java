@@ -1,4 +1,5 @@
 package com.getdonuts.digibooky.services;
+
 import com.getdonuts.digibooky.api.dto.CreateMemberDTO;
 import com.getdonuts.digibooky.api.dto.MemberDTO;
 import com.getdonuts.digibooky.domain.Member;
@@ -32,9 +33,10 @@ public class MemberService {
 
     private boolean isEmailUnique(String email) {
         List<String> allMemberEmails = repo.getMembers().stream().map(Member::getEmail).collect(Collectors.toList());
-
-        throw new IllegalArgumentException("This e-mail is already used.");
-
+        if (allMemberEmails.contains(email))
+            throw new IllegalArgumentException("This e-mail is already used.");
+        else
+            return true;
     }
 
     private boolean isEmailValid(String email) {
@@ -51,9 +53,11 @@ public class MemberService {
     }
 
     private boolean isINSSunique(String inss) {
-        List<String> allMemberEmails = repo.getMembers().stream().map(Member::getINSS).collect(Collectors.toList());
-
-        throw new IllegalArgumentException("INSS is already used.");
+        List<String> allMemberINSS = repo.getMembers().stream().map(Member::getINSS).collect(Collectors.toList());
+        if (allMemberINSS.contains(inss))
+            throw new IllegalArgumentException("INSS is already used.");
+        else
+            return true;
     }
 
     private boolean validateMail(String email) {
