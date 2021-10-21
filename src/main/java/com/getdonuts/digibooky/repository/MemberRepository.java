@@ -1,12 +1,14 @@
 package com.getdonuts.digibooky.repository;
 import com.getdonuts.digibooky.domain.Member;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+
+@Repository
 public class MemberRepository {
     Map<String, Member> members;
 

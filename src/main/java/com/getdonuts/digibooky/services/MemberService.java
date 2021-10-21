@@ -1,29 +1,30 @@
 package com.getdonuts.digibooky.services;
-
 import com.getdonuts.digibooky.api.dto.CreateMemberDTO;
 import com.getdonuts.digibooky.domain.Member;
 import com.getdonuts.digibooky.repository.MemberRepository;
 import com.getdonuts.digibooky.services.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class MemberService {
-    private MemberRepository repo;
+    private final MemberRepository repo;
+    private final MemberMapper memberMapper;
 
     @Autowired
-    public MemberService(MemberRepository repo) {
+    public MemberService(MemberRepository repo, MemberMapper memberMapper) {
         this.repo = repo;
+        this.memberMapper = memberMapper;
     }
 
     private Member createMember(CreateMemberDTO DTO) {
         if (isINSSunique(DTO.getINSS()) && validateMail(DTO.getEmail()) && validateInputs(DTO.getLastname()) && validateInputs(DTO.getCity()))
-            return MemberMapper.toMember(DTO);
+            return memberMapper.toMember(DTO);
         else
             throw new IllegalArgumentException("Inputs were not valid");
     }
@@ -49,7 +50,7 @@ public class MemberService {
     }
 
     private boolean isINSSunique(String inss) {
-        //implement with member repo
+        List<String> allMemberEmails = repo.getMembers().stream().map(Member::getINSS).collect(Collectors.toList());
 
         throw new IllegalArgumentException("INSS is already used.");
     }
