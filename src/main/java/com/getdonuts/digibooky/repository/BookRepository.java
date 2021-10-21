@@ -10,23 +10,23 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class BookRepository {
 
-    private final ConcurrentHashMap<String, Book> booksByISBN;
+    private final ConcurrentHashMap<String, Book> booksByIsbn;
 
     public BookRepository() {
-        this.booksByISBN = new ConcurrentHashMap<>();
-        booksByISBN.put("1A", new Book("1A", "Head First",  new Author("James", "Brown")));
-        booksByISBN.put("1B", new Book("1B", "Design Patterns",  new Author("Bob", "Down")));
+        this.booksByIsbn = new ConcurrentHashMap<>();
+        booksByIsbn.put("1A", new Book("1A", "Head First",  new Author("James", "Brown"), "Summary"));
+        booksByIsbn.put("1B", new Book("1B", "Design Patterns",  new Author("Bob", "Down"), "Summary"));
     }
 
     public Collection<Book> getAllBooks(){
-        return booksByISBN.values();
+        return booksByIsbn.values();
     }
 
-    public Book getBook(String ISBN){
-        return null;
+    public Book getBook(String isbn){
+        return booksByIsbn.get(isbn);
     }
 
-    public Book searchBook(String ISBN){
+    public Book searchBook(String isbn){
         return null;
     }
 
@@ -42,11 +42,11 @@ public class BookRepository {
         return null;
     }
 
-    public Book updateBook(Book book, String ISBN){
+    public Book updateBook(Book book, String isbn){
         return null;
     }
 
-    public Book deleteBook(String ISBN){
+    public Book deleteBook(String isbn){
         return null;
     }
 

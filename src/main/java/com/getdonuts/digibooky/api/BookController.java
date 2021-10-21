@@ -1,14 +1,12 @@
 package com.getdonuts.digibooky.api;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
+import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
 import com.getdonuts.digibooky.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -27,6 +25,12 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public Collection<BookDto> getAllBooks() {
         return bookService.getAllBooks();
+    }
+
+    @GetMapping(produces = "application/json", path="/{isbn}" )
+    @ResponseStatus(HttpStatus.OK)
+    public BookWithSummaryDto getBook(@PathVariable(value = "isbn") String isbn) {
+        return bookService.getBook(isbn);
     }
 
 

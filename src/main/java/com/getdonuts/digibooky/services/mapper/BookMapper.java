@@ -1,6 +1,7 @@
 package com.getdonuts.digibooky.services.mapper;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
+import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
 import com.getdonuts.digibooky.domain.Book;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,14 @@ public class BookMapper {
                 .setISBN(book.getISBN())
                 .setTitle(book.getTitle())
                 .setAuthor(book.getAuthor());
+    }
+
+    public BookWithSummaryDto mapToBookWithSummaryDto(Book book){
+        return new BookWithSummaryDto()
+                .setISBN(book.getISBN())
+                .setTitle(book.getTitle())
+                .setAuthor(book.getAuthor())
+                .setSummary(book.getSummary());
     }
 
 

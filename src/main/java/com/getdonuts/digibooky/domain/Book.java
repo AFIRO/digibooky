@@ -5,11 +5,13 @@ public class Book {
     private String ISBN;
     private String title;
     private Author author;
+    private String summary;
 
-    public Book(String ISBN, String title, Author author) {
+    public Book(String ISBN, String title, Author author, String summary) {
         this.ISBN = ISBN;
         this.title = title;
         this.author = author;
+        this.summary = summary;
     }
 
     public String getISBN() {
@@ -34,6 +36,14 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     @Override

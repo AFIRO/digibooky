@@ -1,6 +1,8 @@
 package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
+import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
+import com.getdonuts.digibooky.domain.Book;
 import com.getdonuts.digibooky.repository.BookRepository;
 import com.getdonuts.digibooky.services.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +24,9 @@ public class BookService {
 
     public Collection<BookDto> getAllBooks() {
         return bookMapper.mapToDto(bookRepository.getAllBooks());
+    }
+
+    public BookWithSummaryDto getBook(String isbn){
+        return bookMapper.mapToBookWithSummaryDto(bookRepository.getBook(isbn));
     }
 }
