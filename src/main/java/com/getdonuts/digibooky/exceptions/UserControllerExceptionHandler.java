@@ -13,4 +13,11 @@ public class UserControllerExceptionHandler {
     protected void illegalArgumentException(IllegalArgumentException exception, HttpServletResponse response) throws Exception{
         response.sendError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
     }
+
+    @ExceptionHandler(AuthorisationException.class)
+    protected void authorisationException(AuthorisationException exception, HttpServletResponse response) throws Exception{
+        response.sendError(HttpStatus.FORBIDDEN.value(), exception.getMessage());
+    }
+
+
 }

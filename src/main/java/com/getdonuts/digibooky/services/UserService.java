@@ -3,11 +3,13 @@ package com.getdonuts.digibooky.services;
 import com.getdonuts.digibooky.api.dto.CreateUserDto;
 import com.getdonuts.digibooky.api.dto.UserDto;
 import com.getdonuts.digibooky.domain.User;
+import com.getdonuts.digibooky.exceptions.AuthorisationException;
 import com.getdonuts.digibooky.repository.UserRepository;
 import com.getdonuts.digibooky.services.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -78,7 +80,6 @@ public class UserService {
         return isEmailValid(email) && isEmailUnique(email);
     }
 
-
     private boolean validateInputs(String string) {
         return string != null && !string.isEmpty() && !string.isBlank();
     }
@@ -95,5 +96,14 @@ public class UserService {
                 .collect(Collectors.toList());
 
         return list.contains(id);
+    }
+
+    public UserDto saveLibrarian(String id, CreateUserDto dto) {
+        if(validateAdmin(id)) {
+            User createdUser = createMember(dto);
+            createdUser.setLibrarian(true);
+            return userMapper.toDTO(repo.addMember(createdUser));
+        }
+        throw new AuthorisationException("Admin rights necessary");
     }
 }

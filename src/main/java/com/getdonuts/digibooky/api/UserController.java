@@ -5,15 +5,12 @@ import com.getdonuts.digibooky.api.dto.UserDto;
 import com.getdonuts.digibooky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
 @RequestMapping(path = "/members")
-@Validated
 public class UserController {
     private final UserService userService;
 
@@ -28,9 +25,15 @@ public class UserController {
         return userService.saveMember(DTO);
     }
 
+    @PostMapping(produces = "application/json", consumes = "application/json", path = "/librarian/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto createLibrarian(@PathVariable String id, @RequestBody CreateUserDto DTO) {
+        return userService.saveLibrarian(id, DTO);
+    }
+
     @GetMapping(produces = "application/json", path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<UserDto> getAll(@PathVariable @Valid String id){
+    public Collection<UserDto> getAll(@PathVariable String id){
         return userService.getAll(id);
     }
 }
