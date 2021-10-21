@@ -31,6 +31,12 @@ public class UserController {
         return userService.saveLibrarian(id, DTO);
     }
 
+    @PostMapping(produces = "application/json", consumes = "application/json", path = "/admin/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto createAdmin(@PathVariable String id, @RequestBody CreateUserDto DTO) {
+        return userService.saveAdmin(id, DTO);
+    }
+
     @GetMapping(produces = "application/json", path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Collection<UserDto> getAll(@PathVariable String id){

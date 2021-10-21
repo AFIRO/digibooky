@@ -106,4 +106,13 @@ public class UserService {
         }
         throw new AuthorisationException("Admin rights necessary");
     }
+
+    public UserDto saveAdmin(String id, CreateUserDto dto) {
+        if(validateAdmin(id)) {
+            User createdUser = createMember(dto);
+            createdUser.setAdmin(true);
+            return userMapper.toDTO(repo.addMember(createdUser));
+        }
+        throw new AuthorisationException("Admin rights necessary");
+    }
 }
