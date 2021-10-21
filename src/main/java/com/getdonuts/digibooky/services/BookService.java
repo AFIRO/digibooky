@@ -28,7 +28,7 @@ public class BookService {
         return bookMapper.mapToDto(bookRepository.getAllBooks());
     }
 
-    public BookWithSummaryDto getBook(String isbn){
+    public BookWithSummaryDto getBook(String isbn) {
         return bookMapper.mapToBookWithSummaryDto(bookRepository.getBook(isbn));
     }
 
@@ -49,5 +49,14 @@ public class BookService {
         return getAllBooks().stream()
                 .filter(bookDto -> checkForRegexMatch(titleRegex, bookDto.getTitle()))
                 .collect(Collectors.toList());
+    }
+
+    public boolean validateISBN(String ISBN) {
+        int o = Character.getNumericValue(ISBN.charAt(0)) + Character.getNumericValue(ISBN.charAt(2)) + Character.getNumericValue(ISBN.charAt(4)) + Character.getNumericValue(ISBN.charAt(6)) + Character.getNumericValue(ISBN.charAt(8)) + Character.getNumericValue(ISBN.charAt(10));
+        int e = Character.getNumericValue(ISBN.charAt(1)) + Character.getNumericValue(ISBN.charAt(3)) + Character.getNumericValue(ISBN.charAt(5)) + Character.getNumericValue(ISBN.charAt(7)) + Character.getNumericValue(ISBN.charAt(9)) + Character.getNumericValue(ISBN.charAt(11));
+
+        int controlNumber = (10 - (o + (3 * e)) % 10) % 10;
+
+        return controlNumber == Character.getNumericValue(ISBN.charAt(12));
     }
 }
