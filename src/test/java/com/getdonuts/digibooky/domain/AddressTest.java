@@ -8,10 +8,8 @@ class AddressTest {
 
     @Test
     void givenNoCityThrowsIllegalArgumentException() {
-        //given
-        Address address = new Address("Street", "2", "1000", null);
         //then
-        assertThrows(IllegalArgumentException.class, () -> address.setCity(null));
+        assertThrows(IllegalArgumentException.class, () -> new Address("Street", "2", "1000" ,null));
     }
 
 }

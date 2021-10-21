@@ -23,5 +23,4 @@ public class MemberController {
     public MemberDto createMember(@RequestBody CreateMemberDto DTO) {
         return memberService.saveMember(DTO);
     }
-
 }
