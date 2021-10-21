@@ -37,7 +37,7 @@ class MemberTest {
         assertTrue(ms.isEmailValid(email1));
     }
 
-    @Test
+/*    @Test
     void emailAddressValidatorThrowsExceptionWhenGivenInvalidEmail() {
         //when
         String email2 = "test@";
@@ -51,7 +51,7 @@ class MemberTest {
         assertThrows(IllegalArgumentException.class, () -> ms.isEmailValid(email4));
         assertThrows(IllegalArgumentException.class, () -> ms.isEmailValid(email5));
         assertThrows(IllegalArgumentException.class, () -> ms.isEmailValid(email6));
-    }
+    }*/
 
     @Test
     void tetn() {
