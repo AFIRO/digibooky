@@ -44,14 +44,12 @@ class MemberTest {
         String email4 = "@test.be";
         String email5 = "test.be";
         String email6 = "test@@test.be";
-        String email7 = "te.st@te.st";
         //then
-        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email2));
-        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email3));
-        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email4));
-        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email5));
-        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email6));
-        assertThrows(InvalidEmailException.class, () -> MemberService.isEmailValid(email7));
+        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email2));
+        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email3));
+        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email4));
+        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email5));
+        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email6));
     }
 
     @Test
