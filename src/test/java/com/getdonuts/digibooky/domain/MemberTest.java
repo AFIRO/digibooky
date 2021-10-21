@@ -1,5 +1,6 @@
 package com.getdonuts.digibooky.domain;
 
+import com.getdonuts.digibooky.exceptions.InvalidEmailException;
 import com.getdonuts.digibooky.services.EmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,18 +31,26 @@ class MemberTest {
     void emailAddressValidatorWorks() {
         //when
         String email1 = "test@test.be";
+        //then
+        assertTrue(EmailService.isValid(email1));
+    }
+
+    @Test
+    void emailAddressValidatorThrowsExceptionWhenGivenInvalidEmail() {
+        //when
         String email2 = "test@";
         String email3 = "test@test.";
         String email4 = "@test.be";
         String email5 = "test.be";
         String email6 = "test@@test.be";
         String email7 = "te.st@te.st";
-        EmailService es = new EmailService();
         //then
-        assertTrue(es.isValid(email1) && !es.isValid(email2) &&
-                !es.isValid(email3) && !es.isValid(email4) &&
-                !es.isValid(email5) && !es.isValid(email6) &&
-                !es.isValid(email7));
+        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email2));
+        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email3));
+        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email4));
+        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email5));
+        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email6));
+        assertThrows(InvalidEmailException.class, () -> EmailService.isValid(email7));
     }
 
     @Test
