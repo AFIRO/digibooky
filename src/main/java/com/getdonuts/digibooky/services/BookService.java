@@ -35,12 +35,19 @@ public class BookService {
     public  Collection<BookDto> getBookWithRegexIsbn(String regex){
 
         return getAllBooks().stream()
-                .filter(bookDto -> checkForRegexMatch(regex, bookDto.getISBN())).collect(Collectors.toList());
+                .filter(bookDto -> checkForRegexMatch(regex, bookDto.getISBN()))
+                .collect(Collectors.toList());
     }
 
     private boolean checkForRegexMatch(String regex, String target){
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(target);
         return matcher.find();
+    }
+
+    public Collection<BookDto> getBookWithRegexTitle(String titleRegex) {
+        return getAllBooks().stream()
+                .filter(bookDto -> checkForRegexMatch(titleRegex, bookDto.getTitle()))
+                .collect(Collectors.toList());
     }
 }

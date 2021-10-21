@@ -27,21 +27,22 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @GetMapping(produces = "application/json", path="/{isbn}" )
+    @GetMapping(produces = "application/json", path = "/{isbn}")
     @ResponseStatus(HttpStatus.OK)
     public BookWithSummaryDto getBook(@PathVariable(value = "isbn", required = false) String isbn) {
         return bookService.getBook(isbn);
     }
 
 
-    @GetMapping(produces = "application/json", path="/search/{isbnRegex}")
+    @GetMapping(produces = "application/json", path = "/search", params = "isbn")
     @ResponseStatus(HttpStatus.OK)
     public Collection<BookDto> getBookWithRegexIsbn(@PathVariable String isbnRegex) {
         return bookService.getBookWithRegexIsbn(isbnRegex);
     }
 
-
-
-
-
+    @GetMapping(produces = "application/json", path = "/search", params = "title")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<BookDto> getBookByTitleWithRegex(@RequestParam(value = "title") String titleRegex){
+        return bookService.getBookWithRegexTitle(titleRegex);
+    }
 }
