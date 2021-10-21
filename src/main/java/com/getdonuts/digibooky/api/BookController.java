@@ -29,7 +29,7 @@ public class BookController {
 
     @GetMapping(produces = "application/json", path="/{isbn}" )
     @ResponseStatus(HttpStatus.OK)
-    public BookWithSummaryDto getBook(@PathVariable(value = "isbn") String isbn) {
+    public BookWithSummaryDto getBook(@PathVariable(value = "isbn", required = false) String isbn) {
         return bookService.getBook(isbn);
     }
 
