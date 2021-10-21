@@ -1,8 +1,7 @@
 package com.getdonuts.digibooky.domain;
 
-import com.getdonuts.digibooky.exceptions.InvalidEmailException;
 import com.getdonuts.digibooky.services.MemberService;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,7 +21,7 @@ class MemberTest {
     private Address address;
 
 
- //   @BeforeEach
+    @BeforeAll
     void setUp() {
         address = new Address(street, houseNr, postalCode, city);
         member = new Member(inss, firstName, lastName, email, address);
