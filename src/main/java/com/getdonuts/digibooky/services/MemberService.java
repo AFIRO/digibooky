@@ -1,6 +1,6 @@
 package com.getdonuts.digibooky.services;
-import com.getdonuts.digibooky.api.dto.CreateMemberDTO;
-import com.getdonuts.digibooky.api.dto.MemberDTO;
+import com.getdonuts.digibooky.api.dto.CreateMemberDto;
+import com.getdonuts.digibooky.api.dto.MemberDto;
 import com.getdonuts.digibooky.domain.Member;
 import com.getdonuts.digibooky.repository.MemberRepository;
 import com.getdonuts.digibooky.services.mapper.MemberMapper;
@@ -23,7 +23,7 @@ public class MemberService {
         this.memberMapper = memberMapper;
     }
 
-    private Member createMember(CreateMemberDTO DTO) {
+    private Member createMember(CreateMemberDto DTO) {
         if (isINSSunique(DTO.getINSS()) && validateMail(DTO.getEmail()) && validateInputs(DTO.getLastname()) && validateInputs(DTO.getCity()))
             return memberMapper.toMember(DTO);
         else
@@ -67,7 +67,7 @@ public class MemberService {
         return true;
     }
 
-    public MemberDTO saveMember(CreateMemberDTO createMemberDTO) {
+    public MemberDto saveMember(CreateMemberDto createMemberDTO) {
         Member createdMember = createMember(createMemberDTO);
         return memberMapper.toDTO(repo.addMember(createdMember));
     }

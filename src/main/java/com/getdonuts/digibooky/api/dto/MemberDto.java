@@ -1,6 +1,6 @@
 package com.getdonuts.digibooky.api.dto;
 
-public class MemberDTO {
+public class MemberDto {
     private final String id;
     private final String firstName;
     private final String lastname;
@@ -10,7 +10,7 @@ public class MemberDTO {
     private final String city;
     private final String postcode;
 
-    public MemberDTO(String id, String firstName, String lastname, String email, String street, String houseNumber, String city, String postcode) {
+    public MemberDto(String id, String firstName, String lastname, String email, String street, String houseNumber, String city, String postcode) {
         this.id = id;
         this.firstName = firstName;
         this.lastname = lastname;
