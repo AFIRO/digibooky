@@ -16,18 +16,15 @@ public class Member {
 
     public Member(String INSS, String firstName, String lastName, String email, Address address) {
         this.id = UUID.randomUUID().toString();
-
         if (MemberService.isINSSunique(INSS))
             this.INSS = INSS;
-
         this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+        setLastName(lastName);
+        setEmail(email);
         this.address = address;
     }
 
     public void setEmail(String email) {
-
         if (MemberService.isEmailValid(email) && MemberService.isEmailUnique(email))
             this.email = email;
 
@@ -35,7 +32,9 @@ public class Member {
 
     public void setLastName(String lastName) {
         if (lastName == null || lastName.isEmpty() || lastName.isBlank() )
-            throw new IllegalStateException();
+            throw new IllegalArgumentException("Last name must be filled in.");
         this.lastName = lastName;
     }
+
+
 }

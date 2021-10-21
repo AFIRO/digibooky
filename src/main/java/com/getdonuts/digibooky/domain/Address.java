@@ -12,9 +12,13 @@ public class Address {
         this.street = street;
         this.houseNumber = houseNumber;
         this.postalCode = postalCode;
-        this.city = city;
+        setCity(city);
     }
 
+    public void setCity(String city){
+        if (city == null || city.isBlank() || city.isEmpty())
+            this.city = city;
+    }
 
     public String getStreet() {
         return street;
@@ -31,4 +35,7 @@ public class Address {
     public String getCity() {
         return city;
     }
+
+
+
 }

@@ -10,7 +10,7 @@ public class MemberService {
 
     public static boolean isEmailUnique(String email) {
         //implement van member repo is done.
-        throw new InvalidEmailException("This e-mail is already used.");
+        throw new IllegalArgumentException("This e-mail is already used.");
 
     }
 
@@ -24,7 +24,7 @@ public class MemberService {
         if (matcher.find())
             return true;
         else
-            throw new InvalidEmailException("This e-mail is not valid.");
+            throw new IllegalArgumentException("This e-mail is not valid.");
     }
 
     public static boolean isINSSunique(String inss) {
