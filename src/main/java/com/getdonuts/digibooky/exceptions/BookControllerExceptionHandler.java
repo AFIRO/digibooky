@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class BookControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(NullPointerException.class)
-    protected void nullPointerException(NullPointerException exception, HttpServletResponse response) throws Exception{
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected void nullPointerException(IllegalArgumentException exception, HttpServletResponse response) throws Exception{
         response.sendError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
     }
 

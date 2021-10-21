@@ -17,6 +17,8 @@ public class Address {
 
     public void setCity(String city){
         if (city == null || city.isBlank() || city.isEmpty())
+            throw new IllegalArgumentException();
+        else
             this.city = city;
     }
 

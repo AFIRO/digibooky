@@ -1,10 +1,12 @@
 package com.getdonuts.digibooky.repository;
-
 import com.getdonuts.digibooky.domain.Member;
+import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
 public class MemberRepository {
     Map<String, Member> members;
 
@@ -31,7 +33,7 @@ public class MemberRepository {
             throw new NullPointerException("This member does not exist.");
     }
 
-    public Map<String, Member> getMembers() {
-        return members;
+    public Collection<Member> getMembers() {
+        return members.values();
     }
 }

@@ -23,6 +23,10 @@ public class BookRepository {
     }
 
     public Book getBook(String isbn){
+        if(!booksByIsbn.containsKey(isbn)){
+            System.out.println("I am in repository");
+            throw new IllegalArgumentException("ISBN should not be empty");
+        }
         return booksByIsbn.get(isbn);
     }
 
