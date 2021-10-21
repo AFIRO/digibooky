@@ -5,8 +5,6 @@ import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
 import com.getdonuts.digibooky.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 //import javax.validation.constraints.NotNull;
@@ -33,6 +31,12 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public BookWithSummaryDto getBook(@PathVariable(value = "isbn", required = false) String isbn) {
         return bookService.getBook(isbn);
+    }
+
+    @GetMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<BookDto> getBookWithRegexIsbn(@RequestParam String isbnRegex) {
+        return bookService.getBookWithRegexIsbn(isbnRegex);
     }
 
 
