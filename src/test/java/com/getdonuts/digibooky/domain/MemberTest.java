@@ -19,12 +19,14 @@ class MemberTest {
     private String postalCode = "1000";
     private String city = "TestCity";
     private Address address;
+    private MemberService ms;
 
 
     @BeforeAll
     void setUp() {
         address = new Address(street, houseNr, postalCode, city);
         member = new Member(inss, firstName, lastName, email, address);
+        ms = new MemberService();
     }
 
     @Test
@@ -32,7 +34,7 @@ class MemberTest {
         //when
         String email1 = "test@test.be";
         //then
-        assertTrue(MemberService.isEmailValid(email1));
+        assertTrue(ms.isEmailValid(email1));
     }
 
     @Test
@@ -44,11 +46,11 @@ class MemberTest {
         String email5 = "test.be";
         String email6 = "test@@test.be";
         //then
-        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email2));
-        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email3));
-        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email4));
-        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email5));
-        assertThrows(IllegalArgumentException.class, () -> MemberService.isEmailValid(email6));
+        assertThrows(IllegalArgumentException.class, () -> ms.isEmailValid(email2));
+        assertThrows(IllegalArgumentException.class, () -> ms.isEmailValid(email3));
+        assertThrows(IllegalArgumentException.class, () -> ms.isEmailValid(email4));
+        assertThrows(IllegalArgumentException.class, () -> ms.isEmailValid(email5));
+        assertThrows(IllegalArgumentException.class, () -> ms.isEmailValid(email6));
     }
 
     @Test
