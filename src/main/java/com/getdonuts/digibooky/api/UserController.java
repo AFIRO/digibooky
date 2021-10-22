@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping(produces = "application/json", path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<UserDto> getAll(@PathVariable String id){
+    public Collection<UserDto> getAllUsers(@PathVariable String id){
         return userService.getAll(id);
     }
 }

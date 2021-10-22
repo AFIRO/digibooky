@@ -81,7 +81,10 @@ public class UserService {
     }
 
     private boolean validateInputs(String string) {
-        return string != null && !string.isEmpty() && !string.isBlank();
+        if(string == null || string.isEmpty() || string.isBlank()){
+            throw new IllegalArgumentException("Input is not valid.");
+        }
+        return true;
     }
 
     public UserDto saveMember(CreateUserDto createUserDTO) {
@@ -98,6 +101,7 @@ public class UserService {
         return list.contains(id);
     }
 
+    // TODO refactor this method
     public UserDto saveLibrarian(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createMember(dto);
@@ -107,6 +111,7 @@ public class UserService {
         throw new AuthorisationException("Admin rights necessary");
     }
 
+    // TODO refactor this method
     public UserDto saveAdmin(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createMember(dto);
