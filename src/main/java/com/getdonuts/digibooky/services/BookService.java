@@ -72,7 +72,7 @@ public class BookService {
         return controlNumber == Character.getNumericValue(ISBN.charAt(12));
     }
 
-    public BookWithSummaryDto saveBook(BookWithSummaryDto dto, String id) {
+    public BookWithSummaryDto SaveBook(BookWithSummaryDto dto, String id) {
         if (userService.validateLibrarian(id) && validateBook(dto)) {
             Book savedBook = bookMapper.MapBookSummaryDTOtoBook(dto);
             bookRepository.registerANewBook(savedBook);
