@@ -109,6 +109,15 @@ public class UserService {
         return list.contains(id);
     }
 
+    public boolean validateLibrarian(String id) {
+        var list = repo.getUsers().stream()
+                .filter(User::isLibrarian)
+                .map(User::getId)
+                .collect(Collectors.toList());
+
+        return list.contains(id);
+    }
+
 
 
     // TODO refactor this method
