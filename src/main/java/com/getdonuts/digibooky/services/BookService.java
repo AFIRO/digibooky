@@ -65,7 +65,6 @@ public class BookService {
                 .filter(bookDto -> checkForRegexMatch(firstname, bookDto.getAuthor().getFirstName()))
                 .filter(bookDto -> checkForRegexMatch(lastname, bookDto.getAuthor().getLastName()))
                 .collect(Collectors.toList());
-
     }
 
     public boolean validateISBN(String ISBN) {
