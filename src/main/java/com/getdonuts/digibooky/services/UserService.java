@@ -9,7 +9,6 @@ import com.getdonuts.digibooky.services.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -35,7 +34,7 @@ public class UserService {
     }
 
     private User createMember(CreateUserDto DTO) {
-        if (isINSSunique(DTO.getInss()) && validateMail(DTO.getEmail()) && validateInputs(DTO.getLastName()) && validateInputs(DTO.getCity()))
+        if (isINSSunique(DTO.getInss()) && validateMail(DTO.getEmail()) && validateLastName(DTO.getLastName()) && validateCity(DTO.getCity()))
             return userMapper.toMember(DTO);
         else
             throw new IllegalArgumentException("Inputs were not valid");
@@ -80,12 +79,21 @@ public class UserService {
         return isEmailValid(email) && isEmailUnique(email);
     }
 
-    private boolean validateInputs(String string) {
-        if(string == null || string.isEmpty() || string.isBlank()){
-            throw new IllegalArgumentException("Input is not valid.");
+    private boolean validateLastName(String input) {
+        if(input == null || input.isEmpty() || input.isBlank()){
+            throw new IllegalArgumentException("Last name is not valid.");
         }
         return true;
     }
+
+    private boolean validateCity(String input) {
+        if(input == null || input.isEmpty() || input.isBlank()){
+            throw new IllegalArgumentException("City is not valid.");
+        }
+        return true;
+    }
+
+
 
     public UserDto saveMember(CreateUserDto createUserDTO) {
         User createdUser = createMember(createUserDTO);
