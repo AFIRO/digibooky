@@ -26,7 +26,11 @@ public class LoanService {
     }
 
     public Loan lendBook(CreateLoanDto createLoanDto) {
-        return loanRepository.createLoan(loanMapper.toLoan(createLoanDto));
+        String isbn = createLoanDto.getIsbn();
+        if(bookExists(isbn) && isLent(isbn) && memberExists(createLoanDto.getUserId())) {
+            return loanRepository.createLoan(loanMapper.toLoan(createLoanDto));
+        }
+        throw new IllegalArgumentException("Something went wrong...");
     }
 
     public boolean bookExists(String isbn) {
