@@ -6,7 +6,7 @@ public class Book {
     private String title;
     private Author author;
     private String summary;
-
+    private boolean isLent;
     public Book() {
     }
 
@@ -52,6 +52,14 @@ public class Book {
     public Book setSummary(String summary) {
         this.summary = summary;
         return this;
+    }
+
+    public boolean isLent() {
+        return isLent;
+    }
+
+    public void setLent(boolean lent) {
+        isLent = lent;
     }
 
     @Override
