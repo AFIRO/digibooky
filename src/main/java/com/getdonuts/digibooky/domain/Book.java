@@ -7,6 +7,9 @@ public class Book {
     private Author author;
     private String summary;
 
+    public Book() {
+    }
+
     public Book(String ISBN, String title, Author author, String summary) {
         this.ISBN = ISBN;
         this.title = title;
@@ -14,36 +17,41 @@ public class Book {
         this.summary = summary;
     }
 
+
     public String getISBN() {
         return ISBN;
     }
 
-    public void setISBN(String ISBN) {
+    public Book setISBN(String ISBN) {
         this.ISBN = ISBN;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public Book setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public Book setAuthor(Author author) {
         this.author = author;
+        return this;
     }
 
     public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary) {
+    public Book setSummary(String summary) {
         this.summary = summary;
+        return this;
     }
 
     @Override

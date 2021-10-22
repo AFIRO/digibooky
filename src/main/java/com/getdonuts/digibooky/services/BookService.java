@@ -2,6 +2,7 @@ package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
 import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
+import com.getdonuts.digibooky.domain.Book;
 import com.getdonuts.digibooky.repository.BookRepository;
 import com.getdonuts.digibooky.services.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,12 @@ public class BookService {
         int controlNumber = (10 - (o + (3 * e)) % 10) % 10;
 
         return controlNumber == Character.getNumericValue(ISBN.charAt(12));
+    }
+
+    public BookWithSummaryDto SaveBook(BookWithSummaryDto dto) {
+        Book savedBook = bookMapper.MapBookSummaryDTOtoBook(dto);
+        bookRepository.registerANewBook(savedBook);
+        return dto;
+
     }
 }

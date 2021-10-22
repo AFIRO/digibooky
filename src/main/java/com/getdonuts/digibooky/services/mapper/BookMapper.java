@@ -34,6 +34,14 @@ public class BookMapper {
                 .collect(Collectors.toList());
     }
 
+    public Book MapBookSummaryDTOtoBook(BookWithSummaryDto book){
+        return new Book()
+                .setISBN(book.getISBN())
+                .setTitle(book.getTitle())
+                .setAuthor(book.getAuthor())
+                .setSummary(book.getSummary());
+    }
+
 
 
 }

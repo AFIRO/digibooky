@@ -44,7 +44,8 @@ public class BookRepository {
     }
 
     public Book registerANewBook(Book book){
-        return null;
+        booksByIsbn.put(book.getISBN(), book);
+        return book;
     }
 
     public Book updateBook(Book book, String isbn){

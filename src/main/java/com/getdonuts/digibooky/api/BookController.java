@@ -53,4 +53,13 @@ public class BookController {
             @RequestParam(name = "lastName", required = false, defaultValue = "") String lastname){
         return bookService.getBookByAuthor(firstname, lastname);
     }
+
+    @PostMapping(produces = "application/json", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookWithSummaryDto createBook(@RequestBody BookWithSummaryDto DTO) {
+        return bookService.SaveBook(DTO);
+
+    }
+
+
 }
