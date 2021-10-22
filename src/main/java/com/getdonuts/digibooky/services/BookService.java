@@ -3,13 +3,13 @@ package com.getdonuts.digibooky.services;
 import com.getdonuts.digibooky.api.dto.BookDto;
 import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
 import com.getdonuts.digibooky.domain.Book;
+import com.getdonuts.digibooky.exceptions.AuthorisationException;
 import com.getdonuts.digibooky.repository.BookRepository;
 import com.getdonuts.digibooky.services.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -19,11 +19,13 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final UserService userService;
 
     @Autowired
-    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
+    public BookService(BookRepository bookRepository, BookMapper bookMapper, UserService userService) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
+        this.userService = userService;
     }
 
     public Collection<BookDto> getAllBooks() {
@@ -34,14 +36,14 @@ public class BookService {
         return bookMapper.mapToBookWithSummaryDto(bookRepository.getBook(isbn));
     }
 
-    public  Collection<BookDto> getBookWithRegexIsbn(String regex){
+    public Collection<BookDto> getBookWithRegexIsbn(String regex) {
 
         return getAllBooks().stream()
                 .filter(bookDto -> checkForRegexMatch(regex, bookDto.getISBN()))
                 .collect(Collectors.toList());
     }
 
-    private boolean checkForRegexMatch(String regex, String target){
+    private boolean checkForRegexMatch(String regex, String target) {
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(target);
         return matcher.find();
@@ -70,10 +72,14 @@ public class BookService {
         return controlNumber == Character.getNumericValue(ISBN.charAt(12));
     }
 
-    public BookWithSummaryDto SaveBook(BookWithSummaryDto dto) {
-        Book savedBook = bookMapper.MapBookSummaryDTOtoBook(dto);
-        bookRepository.registerANewBook(savedBook);
-        return dto;
+    public BookWithSummaryDto SaveBook(BookWithSummaryDto dto, String id) {
+        if (userService.validateLibrarian(id)) {
+            Book savedBook = bookMapper.MapBookSummaryDTOtoBook(dto);
+            bookRepository.registerANewBook(savedBook);
+            return dto;
+        } else
+            throw new AuthorisationException();
+
 
     }
 }

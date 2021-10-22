@@ -54,10 +54,10 @@ public class BookController {
         return bookService.getBookByAuthor(firstname, lastname);
     }
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
+    @PostMapping(produces = "application/json", consumes = "application/json", path = "/{id})")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookWithSummaryDto createBook(@RequestBody BookWithSummaryDto DTO) {
-        return bookService.SaveBook(DTO);
+    public BookWithSummaryDto createBook(@RequestBody BookWithSummaryDto DTO, @PathVariable("id") String id) {
+        return bookService.SaveBook(DTO, id);
 
     }
 

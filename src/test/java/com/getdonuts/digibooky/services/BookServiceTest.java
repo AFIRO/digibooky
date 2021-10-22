@@ -1,7 +1,9 @@
 package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.repository.BookRepository;
+import com.getdonuts.digibooky.repository.UserRepository;
 import com.getdonuts.digibooky.services.mapper.BookMapper;
+import com.getdonuts.digibooky.services.mapper.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +23,8 @@ class BookServiceTest {
         //Given
         BookRepository bookRepository = new BookRepository();
         BookMapper bookMapper = new BookMapper();
-        BookService bookService = new BookService(bookRepository, bookMapper);
+        UserService userService = new UserService(new UserRepository(), new UserMapper());
+        BookService bookService = new BookService(bookRepository, bookMapper, userService);
         bookService.getAllBooks().stream()
                 .forEach(System.out::println);
 
