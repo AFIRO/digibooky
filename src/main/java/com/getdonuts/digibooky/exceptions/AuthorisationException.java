@@ -21,6 +21,5 @@ public class AuthorisationException extends RuntimeException {
 
     public AuthorisationException() {
         super(ERROR_MESSAGE);
-
     }
 }

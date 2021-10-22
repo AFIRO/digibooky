@@ -124,6 +124,5 @@ public class BookService {
                 .filter(book -> book.getISBN().equals(isbn))
                 .count() == 1;
     }
-
 }
 

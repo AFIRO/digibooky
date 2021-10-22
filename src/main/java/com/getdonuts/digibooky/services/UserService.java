@@ -56,7 +56,6 @@ public class UserService {
             throw new IllegalArgumentException("This e-mail is already used.");
         }
         return true;
-
     }
 
     private boolean isEmailValid(String email) {
@@ -131,8 +130,6 @@ public class UserService {
 
         return list.contains(id);
     }
-
-
 
     // TODO refactor this method
     public UserDto saveLibrarian(String id, CreateUserDto dto) {

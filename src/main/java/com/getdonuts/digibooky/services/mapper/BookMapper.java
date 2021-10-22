@@ -29,7 +29,6 @@ public class BookMapper {
                 .setSummary(book.getSummary());
     }
 
-
     public Collection<BookDto> mapToDto(Collection<Book> books) {
         return books.stream()
                 .map(this::mapToDto)
@@ -62,12 +61,9 @@ public class BookMapper {
             book.setSummary(updateBookDto.getSummary());
 
         return book;
-
     }
 
     public boolean isGiven(String input) {
         return !(input == null || input.isEmpty() || input.isBlank());
     }
-
-
 }

@@ -2,7 +2,6 @@ package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.CreateLoanDto;
 import com.getdonuts.digibooky.domain.Loan;
-import com.getdonuts.digibooky.repository.BookRepository;
 import com.getdonuts.digibooky.repository.LoanRepository;
 import com.getdonuts.digibooky.services.mapper.LoanMapper;
 import org.springframework.beans.factory.annotation.Autowired;

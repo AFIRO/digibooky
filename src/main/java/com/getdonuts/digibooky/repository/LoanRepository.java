@@ -1,6 +1,5 @@
 package com.getdonuts.digibooky.repository;
 
-import com.getdonuts.digibooky.domain.Book;
 import com.getdonuts.digibooky.domain.Loan;
 import org.springframework.stereotype.Repository;
 

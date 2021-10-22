@@ -18,6 +18,4 @@ public class UserControllerExceptionHandler {
     protected void authorisationException(AuthorisationException exception, HttpServletResponse response) throws Exception{
         response.sendError(HttpStatus.FORBIDDEN.value(), exception.getMessage());
     }
-
-
 }

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
-
     public User toMember(CreateUserDto DTO){
         return new User(DTO.getInss(), DTO.getFirstName(), DTO.getLastName(), DTO.getEmail(), new Address(DTO.getStreet(), DTO.getHouseNumber(), DTO.getPostcode(), DTO.getCity()));
     }

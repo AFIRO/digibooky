@@ -44,7 +44,6 @@ public class BookRepository {
         return booksByIsbn.keySet();
     }
 
-
     public Book registerANewBook(Book book){
         booksByIsbn.put(book.getISBN(), book);
         return book;

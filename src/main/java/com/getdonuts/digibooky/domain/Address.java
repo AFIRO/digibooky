@@ -7,7 +7,6 @@ public class Address {
     private final String postalCode;
     private String city;
 
-
     public Address(String street, String houseNumber, String postalCode, String city) {
         this.street = street;
         this.houseNumber = houseNumber;
@@ -37,7 +36,4 @@ public class Address {
     public String getCity() {
         return city;
     }
-
-
-
 }

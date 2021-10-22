@@ -8,7 +8,6 @@ public class UpdateBookDto {
     private Author author;
     private String summary;
 
-
     public String getTitle() {
         return title;
     }
@@ -36,8 +35,4 @@ public class UpdateBookDto {
         return summary;
 
     }
-
-
-
-
 }

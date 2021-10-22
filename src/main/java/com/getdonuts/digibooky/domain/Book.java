@@ -71,13 +71,4 @@ public class Book {
     public void togglePassive() {
         isPassive = !isPassive;
     }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "ISBN='" + ISBN + '\'' +
-                ", title='" + title + '\'' +
-                ", author=" + author +
-                '}';
-    }
 }
