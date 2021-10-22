@@ -7,6 +7,7 @@ public class Book {
     private Author author;
     private String summary;
     private boolean isLent;
+
     public Book() {
     }
 
