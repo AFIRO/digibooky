@@ -67,8 +67,8 @@ public class Book {
         return isPassive;
     }
 
-    public void setPassive(boolean passive) {
-        isPassive = passive;
+    public void togglePassive() {
+        isPassive = !isPassive;
     }
 
     @Override

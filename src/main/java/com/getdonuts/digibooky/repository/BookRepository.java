@@ -5,6 +5,7 @@ import com.getdonuts.digibooky.domain.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,10 @@ public class BookRepository {
         return booksByIsbn.get(isbn);
     }
 
+    public Set<String> getAllISBN() {
+        return booksByIsbn.keySet();
+    }
+
     public Book searchBook(String isbn){
         return null;
     }
@@ -56,7 +61,8 @@ public class BookRepository {
         return book;
     }
 
-    public Book deleteBook(String isbn){
-        return null;
+    public Book toggleDeleteBook(String isbn){
+        booksByIsbn.get(isbn).togglePassive();
+        return booksByIsbn.get(isbn);
     }
 }

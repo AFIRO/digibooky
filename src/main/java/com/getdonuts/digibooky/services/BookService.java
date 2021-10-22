@@ -1,14 +1,15 @@
 package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
-import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
+import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.domain.Book;
 import com.getdonuts.digibooky.exceptions.AuthorisationException;
 import com.getdonuts.digibooky.repository.BookRepository;
 import com.getdonuts.digibooky.services.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -97,9 +98,16 @@ public class BookService {
         if (userService.validateLibrarian(id)) {
             Book updatedBook = bookMapper.updateBookDtoToBook(dto, bookRepository.getBook(isbn));
             bookRepository.registerANewBook(updatedBook);
-        return bookMapper.mapToBookWithSummaryDto(updatedBook);
-        }
-        else
+            return bookMapper.mapToBookWithSummaryDto(updatedBook);
+        } else
+            throw new AuthorisationException();
+    }
+
+    public boolean toggleDeleteBook(String isbn, String id) {
+        if (userService.validateLibrarian(id) && bookRepository.getAllISBN().contains(isbn)) {
+            bookRepository.toggleDeleteBook(isbn);
+            return true;
+        } else
             throw new AuthorisationException();
     }
 
@@ -108,7 +116,7 @@ public class BookService {
     }
 
 
-    public boolean exist(String isbn){
+    public boolean exist(String isbn) {
         return (int) getAllBooks().stream()
                 .filter(book -> book.getISBN().equals(isbn))
                 .count() == 1;

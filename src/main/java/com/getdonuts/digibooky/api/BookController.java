@@ -1,14 +1,13 @@
 package com.getdonuts.digibooky.api;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
-import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
+import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-//import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @RestController
@@ -43,7 +42,7 @@ public class BookController {
 
     @GetMapping(produces = "application/json", path = "/searchByTitle", params = "title")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<BookDto> getBookByTitleWithRegex(@RequestParam(value = "title") String titleRegex){
+    public Collection<BookDto> getBookByTitleWithRegex(@RequestParam(value = "title") String titleRegex) {
         return bookService.getBookWithRegexTitle(titleRegex);
     }
 
@@ -51,7 +50,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public Collection<BookDto> getBookByAuthor(
             @RequestParam(name = "firstName", required = false, defaultValue = "") String firstname,
-            @RequestParam(name = "lastName", required = false, defaultValue = "") String lastname){
+            @RequestParam(name = "lastName", required = false, defaultValue = "") String lastname) {
         return bookService.getBookByAuthor(firstname, lastname);
     }
 
@@ -64,6 +63,12 @@ public class BookController {
     @PatchMapping(produces = "application/json", consumes = "application/json", path = "/{id}/{isbn}")
     @ResponseStatus(HttpStatus.OK)
     public BookWithSummaryDto updateBook(@RequestBody UpdateBookDto dto, @PathVariable("id") String id, @PathVariable("isbn") String isbn) {
-        return bookService.updateBook(dto,isbn,id);
+        return bookService.updateBook(dto, isbn, id);
+    }
+
+    @DeleteMapping(path = "/{id}/{isbn}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean toggleDeleteBook(@PathVariable("id") String id, @PathVariable("isbn") String isbn) {
+        return bookService.toggleDeleteBook(isbn, id);
     }
 }
