@@ -33,6 +33,13 @@ public class UserService {
         return userMapper.toDTO(repo.getUsers());
     }
 
+    public boolean memberExists(String id){
+        return repo.getUsers()
+                .stream()
+                .filter(user -> user.getId().equals(id))
+                .count() == 1;
+    }
+
     private User createMember(CreateUserDto DTO) {
         if (isINSSunique(DTO.getInss()) && validateMail(DTO.getEmail()) && validateLastName(DTO.getLastName()) && validateCity(DTO.getCity()))
             return userMapper.toMember(DTO);

@@ -29,15 +29,25 @@ public class LoanService {
         return loanRepository.createLoan(loanMapper.toLoan(createLoanDto));
     }
 
-    // check if book is in repo => bookservice.getBook
-    /*public boolean exist(String isbn){
-        return (int) getAllBooks().stream()
-                .filter(book -> book.getISBN().equals(isbn))
-                .count() == 1;
-    }*/
-    // check if book is available
-        
-    // check if user exist
+    public boolean bookExists(String isbn) {
+        if(!bookservice.exist(isbn)){
+            throw new IllegalArgumentException("Book doesn't exist");
+        }
+        return true;
+    }
 
-    //
+    public boolean isLent(String isbn){
+        if(!bookservice.getBook(isbn).isLent()){
+            throw new IllegalArgumentException("Book is already lent");
+        }
+        return true;
+    }
+
+    public boolean memberExists(String memberId){
+        if(!userService.memberExists(memberId)){
+            throw new IllegalArgumentException("Member doesn't exist");
+        }
+        return true;
+    }
+
 }

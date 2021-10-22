@@ -8,6 +8,7 @@ public class BookWithSummaryDto {
     private String title;
     private Author author;
     private String summary;
+    private boolean isLent;
 
     public String getISBN() {
         return ISBN;
@@ -42,6 +43,15 @@ public class BookWithSummaryDto {
 
     public BookWithSummaryDto setSummary(String summary) {
         this.summary = summary;
+        return this;
+    }
+
+    public boolean isLent() {
+        return isLent;
+    }
+
+    public BookWithSummaryDto setLent(boolean lent) {
+        isLent = lent;
         return this;
     }
 }
