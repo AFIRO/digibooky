@@ -53,7 +53,6 @@ public class BookService {
     }
 
     public Collection<BookDto> getBookByAuthor(String firstname, String lastname) {
-        System.out.println("I received " + firstname + " " + lastname);
         return getAllBooks().stream()
                 .filter(bookDto -> checkForRegexMatch(firstname, bookDto.getAuthor().getFirstName()))
                 .filter(bookDto -> checkForRegexMatch(lastname, bookDto.getAuthor().getLastName()))
