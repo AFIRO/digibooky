@@ -73,13 +73,26 @@ public class BookService {
     }
 
     public BookWithSummaryDto SaveBook(BookWithSummaryDto dto, String id) {
-        if (userService.validateLibrarian(id)) {
+        if (userService.validateLibrarian(id) && validateBook(dto)) {
             Book savedBook = bookMapper.MapBookSummaryDTOtoBook(dto);
             bookRepository.registerANewBook(savedBook);
             return dto;
         } else
             throw new AuthorisationException();
+    }
 
+    public boolean validateBook(BookWithSummaryDto dto) {
+        if (!isGiven(dto.getSummary()))
+            dto.setSummary("No summary given.");
 
+        if (isGiven(dto.getISBN()) && isGiven(dto.getAuthor().getFirstName()) && isGiven(dto.getAuthor().getLastName()) && isGiven(dto.getTitle()))
+            return true;
+        else
+            throw new IllegalArgumentException("The information given for this book was not valid.");
+
+    }
+
+    public boolean isGiven(String input) {
+        return !(input == null || input.isEmpty() || input.isBlank());
     }
 }

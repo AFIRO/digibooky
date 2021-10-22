@@ -13,12 +13,18 @@ public class UserRepository {
 
     public UserRepository() {
         users = new ConcurrentHashMap<>();
-        User userAdmin = new User("12345", "John", "Wick",
+        User userAdmin = new User("12345", "John", "Admin",
                 "test@test.be",
                 new Address("Street", "10", "3000", "Leuven"));
-        users.put(userAdmin.getId(), userAdmin);
+        User librarian = new User("2354235323", "John", "Librarian",
+                "string@test.be",
+                new Address("Street", "10", "3000", "Leuven"));
         userAdmin.setAdmin(true);
-        System.out.println(userAdmin.getId());
+        librarian.setLibrarian(true);
+        users.put(userAdmin.getId(), userAdmin);
+        users.put(librarian.getId(), librarian);
+        System.out.println("admin for testing: " + userAdmin.getId());
+        System.out.println("librarian for testing: " + librarian.getId());
     }
 
     public User addMember(User user) {

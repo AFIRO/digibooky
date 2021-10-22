@@ -1,5 +1,6 @@
 package com.getdonuts.digibooky.exceptions;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class BookControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    protected void nullPointerException(IllegalArgumentException exception, HttpServletResponse response) throws Exception{
+    protected void illegalArgumentException(IllegalArgumentException exception, HttpServletResponse response) throws Exception{
         response.sendError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
     }
 
@@ -36,7 +37,7 @@ public class BookControllerExceptionHandler extends ResponseEntityExceptionHandl
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(x -> x.getDefaultMessage())
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
 
         body.put("errors", errors);
