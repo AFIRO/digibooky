@@ -10,25 +10,25 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class BookRepository {
 
-    private final ConcurrentHashMap<String, Book> booksByIsbn;
+    private final ConcurrentHashMap<String, Book> bookRepo;
 
     public BookRepository() {
-        this.booksByIsbn = new ConcurrentHashMap<>();
-        booksByIsbn.put("1A", new Book("1A", "Head First",  new Author("James", "Brown"), "Summary"));
-        booksByIsbn.put("1B", new Book("1B", "Design Patterns",  new Author("Bob", "Down"), "Summary"));
-        booksByIsbn.put("1C", new Book("1C", "Design furniture",  new Author("George", "Down"), "Summary"));
-        booksByIsbn.put("1D", new Book("1D", "Cool furniture",  new Author("Bob", "Up"), "Summary"));
+        this.bookRepo = new ConcurrentHashMap<>();
+        bookRepo.put("1A", new Book("1A", "Head First",  new Author("James", "Brown"), "Summary"));
+        bookRepo.put("1B", new Book("1B", "Design Patterns",  new Author("Bob", "Down"), "Summary"));
+        bookRepo.put("1C", new Book("1C", "Design furniture",  new Author("George", "Down"), "Summary"));
+        bookRepo.put("1D", new Book("1D", "Cool furniture",  new Author("Bob", "Up"), "Summary"));
     }
 
     public Collection<Book> getAllBooks(){
-        return booksByIsbn.values();
+        return bookRepo.values();
     }
 
     public Book getBook(String isbn){
-        if(!booksByIsbn.containsKey(isbn)){
+        if(!bookRepo.containsKey(isbn)){
             throw new IllegalArgumentException("ISBN should not be empty");
         }
-        return booksByIsbn.get(isbn);
+        return bookRepo.get(isbn);
     }
 
     public Book searchBook(String isbn){
@@ -44,7 +44,7 @@ public class BookRepository {
     }
 
     public Book registerANewBook(Book book){
-        booksByIsbn.put(book.getISBN(), book);
+        bookRepo.put(book.getISBN(), book);
         return book;
     }
 
