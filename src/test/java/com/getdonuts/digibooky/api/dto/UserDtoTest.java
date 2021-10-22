@@ -12,7 +12,7 @@ class UserDtoTest {
 
     @Test
     void givenCorrectInputs_WhenBuilderIsCalled_ReturnObject(){
-        User toTest = new User("123132","John", "Doe","test@test.com",new Address("Fakestreet", "123", "1337","Springfield"));
+        UserDto toTest = new UserDto("323424","John", "Doe","test@test.com","Fakestreet", "123", "1337","Springfield");
         var toTestAgainst = toTest;
 
         Assertions.assertThat(toTest).isEqualTo(toTestAgainst);
