@@ -44,17 +44,6 @@ public class BookRepository {
         return booksByIsbn.keySet();
     }
 
-    public Book searchBook(String isbn){
-        return null;
-    }
-
-    public Book getBookByTitle(String title){
-        return null;
-    }
-
-    public Book getBookByAuthor(Author author){
-        return null;
-    }
 
     public Book registerANewBook(Book book){
         booksByIsbn.put(book.getISBN(), book);
