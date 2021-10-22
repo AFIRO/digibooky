@@ -35,7 +35,8 @@ public class LoanService {
 
     private boolean isValidLoan(CreateLoanDto createLoanDto) {
         String isbn = createLoanDto.getIsbn();
-        return bookExists(isbn) && isLent(isbn) && memberExists(createLoanDto.getUserId());
+        String userid = createLoanDto.getUserId();
+        return bookExists(isbn) && isLent(isbn) && memberExists(userid) && hasRightToLoan(userid);
     }
 
     public boolean bookExists(String isbn) {

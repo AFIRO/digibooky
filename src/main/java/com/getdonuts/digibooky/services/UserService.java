@@ -100,8 +100,6 @@ public class UserService {
         return true;
     }
 
-
-
     public UserDto saveMember(CreateUserDto createUserDTO) {
         User createdUser = createMember(createUserDTO);
         return userMapper.toDTO(repo.addMember(createdUser));
@@ -140,6 +138,7 @@ public class UserService {
     public UserDto saveLibrarian(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createMember(dto);
+            createdUser.setMember(false);
             createdUser.setLibrarian(true);
             return userMapper.toDTO(repo.addMember(createdUser));
         }
@@ -150,6 +149,7 @@ public class UserService {
     public UserDto saveAdmin(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createMember(dto);
+            createdUser.setMember(false);
             createdUser.setAdmin(true);
             return userMapper.toDTO(repo.addMember(createdUser));
         }

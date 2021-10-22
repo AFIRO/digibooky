@@ -20,7 +20,9 @@ public class UserRepository {
                 "string@test.be",
                 new Address("Street", "10", "3000", "Leuven"));
         userAdmin.setAdmin(true);
+        userAdmin.setMember(false);
         librarian.setLibrarian(true);
+        librarian.setMember(false);
         users.put(userAdmin.getId(), userAdmin);
         users.put(librarian.getId(), librarian);
         System.out.println("admin for testing: " + userAdmin.getId());
