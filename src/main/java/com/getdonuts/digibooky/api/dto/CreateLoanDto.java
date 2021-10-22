@@ -8,6 +8,11 @@ public class CreateLoanDto {
     private String isbn;
     private LocalDate dueDate;
 
+    public CreateLoanDto(String userId, String isbn, LocalDate dueDate) {
+        this.userId = userId;
+        this.isbn = isbn;
+        this.dueDate = dueDate == null ? LocalDate.now().plusWeeks(3) : dueDate;
+    }
 
     public String getUserId() {
         return userId;

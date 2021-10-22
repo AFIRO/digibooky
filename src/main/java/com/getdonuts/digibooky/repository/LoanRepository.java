@@ -22,14 +22,13 @@ public class LoanRepository {
         loansByLoanId.put("1E", new Loan("15", "ABCDEF"));
     }
 
-    public Book createLoan(Loan loan) {
+    public Loan createLoan(Loan loan) {
 
         if(loansByLoanId.containsKey(loan.getLoanId())){
             throw new IllegalArgumentException("Book already rented");
         }
         loansByLoanId.put(loan.getLoanId(), loan);
-        Book book = bookRepository.getBook(loan.getIsbn());
-        return book;
+        return loan;
     }
 
 

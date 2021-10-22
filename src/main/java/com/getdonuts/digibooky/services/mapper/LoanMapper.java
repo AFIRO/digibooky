@@ -7,11 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoanMapper {
 
-    public Loan toDto(CreateLoanDto createLoanDto) {
-        return new Loan(createLoanDto.getUserId(), createLoanDto.getIsbn());
-    }
+    /*public CreateLoanDto toDto(Loan loan) {
+        return new CreateLoanDto().setLoanId(loan.getLoanId()).setUserId(loan.getUserId())
+                .setIsbn(loan.getIsbn()).setLendingDate(loan.getLendingDate())
+                .setDueDate(loan.getDueDate());
+    }*/
 
-    public Loan toDtoWithDueDate(CreateLoanDto createLoanDto) {
+    public Loan toLoan(CreateLoanDto createLoanDto) {
         return new Loan(createLoanDto.getUserId(), createLoanDto.getIsbn(), createLoanDto.getDueDate());
     }
 }
