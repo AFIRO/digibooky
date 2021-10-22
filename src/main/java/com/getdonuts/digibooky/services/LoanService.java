@@ -27,7 +27,7 @@ public class LoanService {
 
     public Loan lendBook(CreateLoanDto createLoanDto) {
         if(isValidLoan(createLoanDto)) {
-            bookservice.getBook(createLoanDto.getIsbn()).setLent(true);
+            bookservice.getBookFromRepo(createLoanDto.getIsbn()).setLent(true);
             return loanRepository.createLoan(loanMapper.toLoan(createLoanDto));
         }
         throw new IllegalArgumentException("Something went wrong...");
@@ -46,7 +46,7 @@ public class LoanService {
     }
 
     public boolean isLent(String isbn){
-        if(!bookservice.getBook(isbn).isLent()){
+        if(bookservice.getBook(isbn).isLent()){
             throw new IllegalArgumentException("Book is already lent");
         }
         return true;
@@ -55,6 +55,13 @@ public class LoanService {
     public boolean memberExists(String memberId){
         if(!userService.memberExists(memberId)){
             throw new IllegalArgumentException("Member doesn't exist");
+        }
+        return true;
+    }
+
+    public boolean hasRightToLoan(String userId){
+        if(!userService.validateMember(userId)){
+            throw new IllegalArgumentException("User doesn't has right to loan a book.");
         }
         return true;
     }

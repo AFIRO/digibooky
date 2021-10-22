@@ -59,8 +59,9 @@ public class Book {
         return isLent;
     }
 
-    public void setLent(boolean lent) {
+    public Book setLent(boolean lent) {
         isLent = lent;
+        return this;
     }
 
     public boolean isPassive() {

@@ -37,6 +37,10 @@ public class BookService {
         return bookMapper.mapToBookWithSummaryDto(bookRepository.getBook(isbn));
     }
 
+    public Book getBookFromRepo(String isbn){
+        return bookRepository.getBook(isbn);
+    }
+
     public Collection<BookDto> getBookWithRegexIsbn(String regex) {
 
         return getAllBooks().stream()

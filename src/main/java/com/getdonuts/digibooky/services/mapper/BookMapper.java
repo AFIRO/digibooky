@@ -41,6 +41,7 @@ public class BookMapper {
                 .setISBN(book.getISBN())
                 .setTitle(book.getTitle())
                 .setAuthor(book.getAuthor())
+                .setLent(book.isLent())
                 .setSummary(book.getSummary());
     }
 
