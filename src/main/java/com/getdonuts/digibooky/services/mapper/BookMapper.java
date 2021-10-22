@@ -48,8 +48,11 @@ public class BookMapper {
         if (isGiven(updateBookDto.getTitle()))
             book.setTitle(updateBookDto.getTitle());
 
-        if (isGiven(updateBookDto.getAuthor().getFirstName()) && isGiven(updateBookDto.getAuthor().getLastName())){
+        if (isGiven(updateBookDto.getAuthor().getFirstName())){
             book.getAuthor().setFirstName(updateBookDto.getAuthor().getFirstName());
+        }
+
+        if (isGiven(updateBookDto.getAuthor().getLastName())){
             book.getAuthor().setLastName(updateBookDto.getAuthor().getLastName());
         }
 

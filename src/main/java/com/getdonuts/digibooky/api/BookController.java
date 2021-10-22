@@ -1,6 +1,7 @@
 package com.getdonuts.digibooky.api;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
+import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
 import com.getdonuts.digibooky.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +57,8 @@ public class BookController {
 
     @PostMapping(produces = "application/json", consumes = "application/json", path = "/{id})")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookWithSummaryDto createBook(@RequestBody BookWithSummaryDto DTO, @PathVariable("id") String id) {
-        return bookService.saveBook(DTO, id);
+    public BookWithSummaryDto createBook(@RequestBody BookWithSummaryDto dto, @PathVariable("id") String id) {
+        return bookService.saveBook(dto, id);
     }
 
 
