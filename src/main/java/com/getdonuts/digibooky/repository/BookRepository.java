@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class BookRepository {
@@ -21,13 +22,20 @@ public class BookRepository {
     }
 
     public Collection<Book> getAllBooks(){
-        return booksByIsbn.values();
+        return booksByIsbn.values().stream()
+                .filter(book -> !book.isPassive())
+                .collect(Collectors.toList());
     }
 
     public Book getBook(String isbn){
         if(!booksByIsbn.containsKey(isbn)){
             throw new IllegalArgumentException("ISBN should not be empty");
         }
+
+        if(booksByIsbn.get(isbn).isPassive()){
+            throw new IllegalArgumentException("The library does not contain book: " + isbn);
+        }
+
         return booksByIsbn.get(isbn);
     }
 

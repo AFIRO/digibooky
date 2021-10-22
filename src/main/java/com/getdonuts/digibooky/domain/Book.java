@@ -7,6 +7,7 @@ public class Book {
     private Author author;
     private String summary;
     private boolean isLent;
+    private boolean isPassive;
 
     public Book() {
     }
@@ -17,7 +18,6 @@ public class Book {
         this.author = author;
         this.summary = summary;
     }
-
 
     public String getISBN() {
         return ISBN;
@@ -61,6 +61,14 @@ public class Book {
 
     public void setLent(boolean lent) {
         isLent = lent;
+    }
+
+    public boolean isPassive() {
+        return isPassive;
+    }
+
+    public void setPassive(boolean passive) {
+        isPassive = passive;
     }
 
     @Override

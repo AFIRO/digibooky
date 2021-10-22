@@ -24,6 +24,10 @@ public class LoanRepository {
 
     public Loan createLoan(Loan loan) {
 
+        if(bookRepository.getBook(loan.getIsbn()).isPassive()){
+            throw new IllegalArgumentException("The library does not contain book: " + loan.getIsbn());
+        }
+
         if(loansByLoanId.containsKey(loan.getLoanId())){
             throw new IllegalArgumentException("Book already rented");
         }
