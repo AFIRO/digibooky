@@ -92,12 +92,12 @@ public class BookService {
 
     }
 
-    public BookDto updateBook(UpdateBookDto dto, String isbn, String id) {
+    public BookWithSummaryDto updateBook(UpdateBookDto dto, String isbn, String id) {
 
         if (userService.validateLibrarian(id)) {
             Book updatedBook = bookMapper.updateBookDtoToBook(dto, bookRepository.getBook(isbn));
             bookRepository.registerANewBook(updatedBook);
-        return bookMapper.mapToDto(updatedBook);
+        return bookMapper.mapToBookWithSummaryDto(updatedBook);
         }
         else
             throw new AuthorisationException();

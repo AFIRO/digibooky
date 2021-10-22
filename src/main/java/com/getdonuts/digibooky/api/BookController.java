@@ -61,5 +61,9 @@ public class BookController {
         return bookService.saveBook(dto, id);
     }
 
-
+    @PatchMapping(produces = "application/json", consumes = "application/json", path = "/{id}/{isbn}")
+    @ResponseStatus(HttpStatus.OK)
+    public BookWithSummaryDto updateBook(@RequestBody UpdateBookDto dto, @PathVariable("id") String id, @PathVariable("isbn") String isbn) {
+        return bookService.updateBook(dto,isbn,id);
+    }
 }
