@@ -34,24 +34,23 @@ public class BookController {
     }
 
 
-    @GetMapping(produces = "application/json", path = "/search", params = "isbn")
+    @GetMapping(produces = "application/json", path = "/searchByISBN", params = "isbn")
     @ResponseStatus(HttpStatus.OK)
     public Collection<BookDto> getBookWithRegexIsbn(@RequestParam(value = "isbn") String isbnRegex) {
         return bookService.getBookWithRegexIsbn(isbnRegex);
     }
 
-    @GetMapping(produces = "application/json", path = "/search", params = "title")
+    @GetMapping(produces = "application/json", path = "/searchByTitle", params = "title")
     @ResponseStatus(HttpStatus.OK)
     public Collection<BookDto> getBookByTitleWithRegex(@RequestParam(value = "title") String titleRegex){
         return bookService.getBookWithRegexTitle(titleRegex);
     }
 
-    @GetMapping(produces = "application/json", path = "/search" /*, params = {"firstName", "lastName"}*/)
+    @GetMapping(produces = "application/json", path = "/searchByAuthor" /*, params = {"firstName", "lastName"}*/)
     @ResponseStatus(HttpStatus.OK)
     public Collection<BookDto> getBookByAuthor(
             @RequestParam(name = "firstName", required = false, defaultValue = "") String firstname,
             @RequestParam(name = "lastName", required = false, defaultValue = "") String lastname){
-        System.out.println("I received your request");
         return bookService.getBookByAuthor(firstname, lastname);
     }
 }
