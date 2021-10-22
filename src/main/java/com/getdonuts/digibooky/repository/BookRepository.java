@@ -48,10 +48,6 @@ public class BookRepository {
         return book;
     }
 
-    public Book updateBook(Book book, String isbn){
-        return null;
-    }
-
     public Book deleteBook(String isbn){
         return null;
     }

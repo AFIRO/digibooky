@@ -1,6 +1,7 @@
 package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
+import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
 import com.getdonuts.digibooky.domain.Book;
 import com.getdonuts.digibooky.exceptions.AuthorisationException;
@@ -8,7 +9,6 @@ import com.getdonuts.digibooky.repository.BookRepository;
 import com.getdonuts.digibooky.services.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,7 +72,7 @@ public class BookService {
         return controlNumber == Character.getNumericValue(ISBN.charAt(12));
     }
 
-    public BookWithSummaryDto SaveBook(BookWithSummaryDto dto, String id) {
+    public BookWithSummaryDto saveBook(BookWithSummaryDto dto, String id) {
         if (userService.validateLibrarian(id) && validateBook(dto)) {
             Book savedBook = bookMapper.MapBookSummaryDTOtoBook(dto);
             bookRepository.registerANewBook(savedBook);
@@ -92,7 +92,27 @@ public class BookService {
 
     }
 
+    public BookDto updateBook(UpdateBookDto dto, String isbn, String id) {
+
+        if (userService.validateLibrarian(id)) {
+            Book updatedBook = bookMapper.updateBookDtoToBook(dto, bookRepository.getBook(isbn));
+            bookRepository.registerANewBook(updatedBook);
+        return bookMapper.mapToDto(updatedBook);
+        }
+        else
+            throw new AuthorisationException();
+    }
+
     public boolean isGiven(String input) {
         return !(input == null || input.isEmpty() || input.isBlank());
     }
+
+
+    public boolean exist(String isbn){
+        return (int) getAllBooks().stream()
+                .filter(book -> book.getISBN().equals(isbn))
+                .count() == 1;
+    }
+
 }
+
