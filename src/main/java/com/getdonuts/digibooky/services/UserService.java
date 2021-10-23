@@ -99,11 +99,6 @@ public class UserService {
         return true;
     }
 
-/*    public UserDto saveUser(CreateUserDto createUserDTO) {
-        User createdUser = createUser(createUserDTO);
-        return userMapper.toDTO(repo.addMember(createdUser));
-    }*/
-
     public boolean validateAdmin(String id) {
         var list = repo.getUsers().stream()
                 .filter(User::isAdmin)
@@ -142,7 +137,6 @@ public class UserService {
     public UserDto saveLibrarian(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createUser(dto);
-            createdUser.setMember(false);
             createdUser.setLibrarian(true);
             return userMapper.toDTO(repo.addUser(createdUser));
         }
@@ -153,7 +147,6 @@ public class UserService {
     public UserDto saveAdmin(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createUser(dto);
-            createdUser.setMember(false);
             createdUser.setAdmin(true);
             return userMapper.toDTO(repo.addUser(createdUser));
         }
