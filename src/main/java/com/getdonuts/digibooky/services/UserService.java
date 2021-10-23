@@ -33,16 +33,16 @@ public class UserService {
         return userMapper.toDTO(repo.getUsers());
     }
 
-    public boolean memberExists(String id){
+    public boolean userExists(String id){
         return repo.getUsers()
                 .stream()
                 .filter(user -> user.getId().equals(id))
                 .count() == 1;
     }
 
-    private User createMember(CreateUserDto DTO) {
+    private User createUser(CreateUserDto DTO) {
         if (isINSSunique(DTO.getInss()) && validateMail(DTO.getEmail()) && validateLastName(DTO.getLastName()) && validateCity(DTO.getCity()))
-            return userMapper.toMember(DTO);
+            return userMapper.toUser(DTO);
         else
             throw new IllegalArgumentException("Inputs were not valid");
     }
@@ -99,10 +99,10 @@ public class UserService {
         return true;
     }
 
-    public UserDto saveMember(CreateUserDto createUserDTO) {
-        User createdUser = createMember(createUserDTO);
+/*    public UserDto saveUser(CreateUserDto createUserDTO) {
+        User createdUser = createUser(createUserDTO);
         return userMapper.toDTO(repo.addMember(createdUser));
-    }
+    }*/
 
     public boolean validateAdmin(String id) {
         var list = repo.getUsers().stream()
@@ -131,13 +131,20 @@ public class UserService {
         return list.contains(id);
     }
 
+    public UserDto saveMember(CreateUserDto dto) {
+        User createdUser = createUser(dto);
+        createdUser.setMember(true);
+        return userMapper.toDTO(repo.addUser(createdUser));
+    }
+
+
     // TODO refactor this method
     public UserDto saveLibrarian(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
-            User createdUser = createMember(dto);
+            User createdUser = createUser(dto);
             createdUser.setMember(false);
             createdUser.setLibrarian(true);
-            return userMapper.toDTO(repo.addMember(createdUser));
+            return userMapper.toDTO(repo.addUser(createdUser));
         }
         throw new AuthorisationException("Admin rights necessary");
     }
@@ -145,10 +152,10 @@ public class UserService {
     // TODO refactor this method
     public UserDto saveAdmin(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
-            User createdUser = createMember(dto);
+            User createdUser = createUser(dto);
             createdUser.setMember(false);
             createdUser.setAdmin(true);
-            return userMapper.toDTO(repo.addMember(createdUser));
+            return userMapper.toDTO(repo.addUser(createdUser));
         }
         throw new AuthorisationException("Admin rights necessary");
     }

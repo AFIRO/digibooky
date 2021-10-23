@@ -22,7 +22,6 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.address = address;
-        this.setMember(true);
     }
 
     public String getINSS() {

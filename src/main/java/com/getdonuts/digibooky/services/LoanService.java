@@ -53,7 +53,7 @@ public class LoanService {
     }
 
     public boolean memberExists(String memberId){
-        if(!userService.memberExists(memberId)){
+        if(!userService.userExists(memberId)){
             throw new IllegalArgumentException("Member doesn't exist");
         }
         return true;

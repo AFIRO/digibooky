@@ -20,28 +20,26 @@ public class UserRepository {
                 "string@test.be",
                 new Address("Street", "10", "3000", "Leuven"));
         userAdmin.setAdmin(true);
-        userAdmin.setMember(false);
         librarian.setLibrarian(true);
-        librarian.setMember(false);
         users.put(userAdmin.getId(), userAdmin);
         users.put(librarian.getId(), librarian);
         System.out.println("admin for testing: " + userAdmin.getId());
         System.out.println("librarian for testing: " + librarian.getId());
     }
 
-    public User addMember(User user) {
+    public User addUser(User user) {
         users.put(user.getId(), user);
         return user;
     }
 
-    public void removeMember(String id) {
+    public void removeUser(String id) {
         if (users.containsKey(id))
             users.remove(id);
         else
             throw new NullPointerException("This member does not exist.");
     }
 
-    public void updateMember(String id, User user) {
+    public void updateUser(String id, User user) {
         if (users.containsKey(id))
             users.put(id, user);
         else
