@@ -35,7 +35,7 @@ public class LoanService {
     private boolean isValidLoan(CreateLoanDto createLoanDto) {
         String isbn = createLoanDto.getIsbn();
         String userid = createLoanDto.getUserId();
-        return bookExists(isbn) && isLent(isbn) && memberExists(userid) && hasRightToLoan(userid);
+        return bookExists(isbn) && isLent(isbn) && userExists(userid) && hasRightToLoan(userid);
     }
 
     public boolean bookExists(String isbn) {
@@ -52,8 +52,8 @@ public class LoanService {
         return true;
     }
 
-    public boolean memberExists(String memberId){
-        if(!userService.userExists(memberId)){
+    public boolean userExists(String userId){
+        if(!userService.userExists(userId)){
             throw new IllegalArgumentException("Member doesn't exist");
         }
         return true;
