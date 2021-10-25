@@ -87,6 +87,17 @@ public class LoanService {
                 .collect(Collectors.toList());
     }
 
+    public List<BookDto> getOverdueBooks(String librarianId) {
+        assertLibrarianIsValid(librarianId);
+        List<Loan> loans = loanRepository.getAllLoans();
+        return loans.stream()
+                .filter(this::checkIfLate)
+                .map(Loan::getIsbn)
+                .map(bookservice::getBook)
+                .map(bookMapper::summaryBookDtoToBookDto)
+                .collect(Collectors.toList());
+    }
+
     private void assertLibrarianIsValid(String librarianId) {
         if (!userService.validateLibrarian(librarianId)) {
             throw new AuthorisationException();
@@ -136,15 +147,10 @@ public class LoanService {
         return true;
     }
 
-
-
     public boolean hasRightToLoan(String userId){
         if(!userService.validateMember(userId)){
             throw new IllegalArgumentException("User with ID : " + userId + " doesn't has right to loan a book.");
         }
         return true;
     }
-
-
-
 }

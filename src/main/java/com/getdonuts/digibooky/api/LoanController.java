@@ -45,4 +45,11 @@ public class LoanController {
         return loanService.getLentBooksByUser(librarianId, userId);
     }
 
+
+    @GetMapping(produces = "application/json", path = "/{librarianId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> getOverdueBooks(@PathVariable("librarianId") String librarianId) {
+        logger.info("getOverdueBooks() called");
+        return loanService.getOverdueBooks(librarianId);
+    }
 }

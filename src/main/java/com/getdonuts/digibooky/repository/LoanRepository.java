@@ -4,7 +4,9 @@ import com.getdonuts.digibooky.domain.Loan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -54,5 +56,9 @@ public class LoanRepository {
 
     public boolean containsKey(String loanId) {
         return loansByLoanId.containsKey(loanId);
+    }
+
+    public List<Loan> getAllLoans() {
+        return new ArrayList<>(loansByLoanId.values());
     }
 }
