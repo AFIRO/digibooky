@@ -1,8 +1,10 @@
 package com.getdonuts.digibooky.exceptions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AuthorisationException extends RuntimeException {
     private static final String ERROR_MESSAGE = "You do not have the correct authorization to perform this action.";
-
     public AuthorisationException(String message) {
         super(message);
     }
