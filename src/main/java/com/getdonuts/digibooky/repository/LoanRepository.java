@@ -40,7 +40,7 @@ public class LoanRepository {
         return loan;
     }
 
-    public Loan getLoan(String loanId){
+    public Loan returnLoan(String loanId){
         Loan loanToTransfer = loansByLoanId.get(loanId);
         loanArchiveRepository.addLoanToArchive(loanToTransfer);
         return loansByLoanId.remove(loanId);

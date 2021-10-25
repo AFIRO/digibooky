@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,32 +52,33 @@ public class LoanService {
         throw new IllegalArgumentException("Something went wrong...");
     }
 
-    public ReturnLoanDto getLoan(String userId, String loanId) {
+    public ReturnLoanDto returnLoan(String userId, String loanId) {
 
         if (!isValidLoanId(loanId)){
             throw new IllegalArgumentException("loan Id: " + loanId + " is not valid");
         }
 
-        Loan loanToBeReturned = loanRepository.getLoan(loanId);
-        String message = "";
-        if(userService.validateMember(userId) && userExists(userId)){
+        Loan loanToBeReturned = loanRepository.returnLoan(loanId);
+        String message = "Returned on time.";
+        if(userService.validateMember(userId) && assertUserExists(userId)){
             if(checkIfLate(loanToBeReturned)){
                 message = generateMessage(loanToBeReturned.getDueDate());
             }
             makeBookNotLent(loanToBeReturned.getIsbn());
+
             return loanMapper.toReturnLoanDto(loanToBeReturned).setMessage(message);
         }
-        return loanMapper.toReturnLoanDto(loanToBeReturned);
+        return loanMapper.toReturnLoanDto(loanToBeReturned).setMessage(message);
     }
 
     public List<BookDto> getLentBooksByUser(String librarianId, String userId) {
         if (!userService.validateLibrarian(librarianId)) {
             throw new AuthorisationException();
         }
-        userExists(userId);
+        assertUserExists(userId);
 
-        List<Loan> loansByUserFromLoanRepository = (List<Loan>) loanRepository.getAllLoansByUser(userId);
-        List<Loan> loansByUserFromArchivedLoanRepository = (List<Loan>) loanArchiveRepository.getAllArchivedLoansByUser(userId);
+        List<Loan> loansByUserFromLoanRepository = new ArrayList<>(loanRepository.getAllLoansByUser(userId));
+        List<Loan> loansByUserFromArchivedLoanRepository = new ArrayList<>(loanArchiveRepository.getAllArchivedLoansByUser(userId));
 
         loansByUserFromLoanRepository.addAll(loansByUserFromArchivedLoanRepository);
 
@@ -106,7 +108,7 @@ public class LoanService {
     private boolean isValidLoan(CreateLoanDto createLoanDto) {
         String isbn = createLoanDto.getIsbn();
         String userid = createLoanDto.getUserId();
-        return bookExists(isbn) && isNotLent(isbn) && userExists(userid) && hasRightToLoan(userid);
+        return bookExists(isbn) && isNotLent(isbn) && assertUserExists(userid) && hasRightToLoan(userid);
     }
 
     public boolean bookExists(String isbn) {
@@ -124,7 +126,7 @@ public class LoanService {
     }
 
     // TODO refactor into userService
-    public boolean userExists(String userId){
+    public boolean assertUserExists(String userId){
         if(!userService.userExists(userId)){
             throw new IllegalArgumentException("Member with ID : " + userId + " doesn't exist");
         }

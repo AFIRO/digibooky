@@ -33,9 +33,9 @@ public class LoanController {
 
     @DeleteMapping(produces = "application/json", path = "/{userId}/{loanId}/")
     @ResponseStatus(HttpStatus.OK)
-    public ReturnLoanDto getLoan(@PathVariable("userId") String userId,
-                                 @PathVariable("loanId") String loanId){
-        return loanService.getLoan(userId, loanId);
+    public ReturnLoanDto returnLoan(@PathVariable("userId") String userId,
+                                    @PathVariable("loanId") String loanId){
+        return loanService.returnLoan(userId, loanId);
     }
 
     @GetMapping(produces = "application/json", path = "/{librarianId}/{userId}")
