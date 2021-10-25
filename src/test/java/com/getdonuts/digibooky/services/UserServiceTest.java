@@ -44,7 +44,7 @@ class UserServiceTest {
             //given
             dto = new CreateUserDto("9999", "Jean", "Paul", "jean@paul.fr", "Rue", "69", "Bxl", "1000");
             //when
-            UserDto jeanpaul = userService.saveMember(admin.getId(), dto);
+            UserDto jeanpaul = userService.saveMember(dto);
             //then
             assertEquals("Jean", jeanpaul.getFirstName());
             assertEquals("Paul", jeanpaul.getLastname());
@@ -65,7 +65,7 @@ class UserServiceTest {
             //UserDto jeanPaul = userService.saveMember(dto);
 
             //Then
-            Assertions.assertThrows(IllegalArgumentException.class, () -> userService.saveMember(admin.getId(), dto));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
         }
 
 
@@ -74,7 +74,7 @@ class UserServiceTest {
             //given
             dto = new CreateUserDto("9999", "Jean", "Paul", null, "Rue", "69", "Bxl", "1000");
             //then
-            assertThrows(IllegalArgumentException.class, () -> userService.saveMember(admin.getId(), dto));
+            assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
         }
 
         @Test
@@ -82,7 +82,7 @@ class UserServiceTest {
             //given
             dto = new CreateUserDto("9999", "Jean", null, "jean@paul.fr", "Rue", "69", "Bxl", "1000");
             //then
-            assertThrows(IllegalArgumentException.class, () -> userService.saveMember(admin.getId(), dto));
+            assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
         }
 
         @Test
@@ -90,17 +90,10 @@ class UserServiceTest {
             //given
             dto = new CreateUserDto("9999", "Jean", "Paul", "jean@paul.fr", "Rue", "69", null, "1000");
             //then
-            assertThrows(IllegalArgumentException.class, () -> userService.saveMember(admin.getId(), dto));
+            assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
         }
 
-        @Test
-        void onlyAdminCanCreateMember(){
-            //given
-            dto = new CreateUserDto("9999", "Jean", "Paul", "jean@paul.fr", "Rue", "69", null, "1000");
-            String randomId = UUID.randomUUID().toString();
-            // then
-            assertThrows(AuthorisationException.class, ()-> userService.saveMember(randomId, dto));
-        }
+
 
         @Test
         public void ifEmailAddressExist_throwException(){
@@ -108,11 +101,11 @@ class UserServiceTest {
             CreateUserDto dto_2 = new CreateUserDto("9997", "Jean", "Paul", "jean@paul1.fr", "Rue", "69", "Bxl", "1000");
 
             // then
-            userService.saveMember(admin.getId(), dto_1);
+            userService.saveMember(dto_1);
 
             // when
 
-            assertThrows(IllegalArgumentException.class,() -> userService.saveMember(admin.getId(), dto_2));
+            assertThrows(IllegalArgumentException.class,() -> userService.saveMember(dto_2));
 
         }
 
@@ -122,7 +115,7 @@ class UserServiceTest {
             CreateUserDto dto_2 = new CreateUserDto("9998", "Jean", "Paul", "jean@paul2.fr", "Rue", "69", "Bxl", "1000");
 
             // then
-            userService.saveMember(admin.getId(), dto_1);
+            userService.saveLibrarian(admin.getId(), dto_1);
 
             // when
 

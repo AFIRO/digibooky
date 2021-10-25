@@ -36,7 +36,7 @@ public class UserService {
         return userMapper.toDTO(repo.getUsers());
     }
 
-    public boolean userExists(String id){
+    public boolean userExists(String id) {
         return repo.getUsers()
                 .stream()
                 .anyMatch(user -> user.getId().equals(id));
@@ -46,13 +46,12 @@ public class UserService {
         if (isINSSValid(DTO.getInss()) && validateMail(DTO.getEmail()) && validateLastName(DTO.getLastName()) && validateCity(DTO.getCity())) {
             logger.info("User created");
             return userMapper.toUser(DTO);
-        }
-        else
+        } else
             throw new IllegalArgumentException("Inputs were not valid");
     }
 
     private boolean isINSSValid(String inss) {
-        if(!isGiven(inss)){
+        if (!isGiven(inss)) {
             throw new IllegalArgumentException("inss can not be blank or empty");
         }
         return isINSSunique(inss);
@@ -83,7 +82,7 @@ public class UserService {
         if (matcher.find())
             return true;
         else
-            throw new IllegalArgumentException("This e-mail : " + email  +" is not valid.");
+            throw new IllegalArgumentException("This e-mail : " + email + " is not valid.");
     }
 
     private boolean isINSSunique(String inss) {
@@ -101,14 +100,14 @@ public class UserService {
     }
 
     private boolean validateLastName(String input) {
-        if(!isGiven(input)){
+        if (!isGiven(input)) {
             throw new IllegalArgumentException("Last name can not be empty");
         }
         return true;
     }
 
     private boolean validateCity(String input) {
-        if(!isGiven(input)){
+        if (!isGiven(input)) {
             throw new IllegalArgumentException("City can not be empty.");
         }
         return true;
@@ -141,18 +140,18 @@ public class UserService {
         return list.contains(id);
     }
 
-    public UserDto saveMember(String id, CreateUserDto dto) {
-        if(validateAdmin(id)){
-            User createdUser = createUser(dto);
-            createdUser.setMember(true);
-            logger.info("User saved as Member");
-            return userMapper.toDTO(repo.addUser(createdUser));
-        }
-        throw new AuthorisationException("User : " + id + " without admin rights tried to add a member");
+    public UserDto saveMember(CreateUserDto dto) {
+
+        User createdUser = createUser(dto);
+        createdUser.setMember(true);
+        logger.info("User saved as Member");
+        return userMapper.toDTO(repo.addUser(createdUser));
+
+
     }
 
     public UserDto saveLibrarian(String id, CreateUserDto dto) {
-        if(validateAdmin(id)) {
+        if (validateAdmin(id)) {
             User createdUser = createUser(dto);
             createdUser.setLibrarian(true);
             logger.info("User saved as Librarian by " + id);
@@ -162,7 +161,7 @@ public class UserService {
     }
 
     public UserDto saveAdmin(String id, CreateUserDto dto) {
-        if(validateAdmin(id)) {
+        if (validateAdmin(id)) {
             User createdUser = createUser(dto);
             createdUser.setAdmin(true);
             logger.info("User saved as Admin by " + id);

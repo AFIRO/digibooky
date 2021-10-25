@@ -25,7 +25,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createMember(@PathVariable String id ,@RequestBody CreateUserDto DTO) {
         logger.info("createMember() called");
-        return userService.saveMember(id, DTO);
+        return userService.saveMember(DTO);
     }
 
     @PostMapping(produces = "application/json", consumes = "application/json", path = "/librarian/{id}")
