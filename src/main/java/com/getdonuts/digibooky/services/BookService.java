@@ -4,8 +4,11 @@ import com.getdonuts.digibooky.api.dto.BookDto;
 import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.domain.Book;
+import com.getdonuts.digibooky.domain.Loan;
+import com.getdonuts.digibooky.domain.User;
 import com.getdonuts.digibooky.exceptions.AuthorisationException;
 import com.getdonuts.digibooky.repository.BookRepository;
+import com.getdonuts.digibooky.repository.LoanArchiveRepository;
 import com.getdonuts.digibooky.services.mapper.BookMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +40,7 @@ public class BookService {
     }
 
     public BookWithDetailsDto getBook(String isbn) {
-        return bookMapper.mapToBookWithSummaryDto(bookRepository.getBook(isbn));
+        return bookMapper.mapToBookWithDetailsDto(bookRepository.getBook(isbn));
     }
 
     public Book getBookFromRepo(String isbn){
@@ -106,7 +109,7 @@ public class BookService {
             Book updatedBook = bookMapper.updateBookDtoToBook(dto, bookRepository.getBook(isbn));
             bookRepository.registerANewBook(updatedBook);
             logger.info("Book " + updatedBook.getISBN() + " is updated" );
-            return bookMapper.mapToBookWithSummaryDto(updatedBook);
+            return bookMapper.mapToBookWithDetailsDto(updatedBook);
         } else
             throw new AuthorisationException("User without Librarian rights tried to update a book.");
     }

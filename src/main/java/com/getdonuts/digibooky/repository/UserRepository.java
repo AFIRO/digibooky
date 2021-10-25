@@ -27,6 +27,10 @@ public class UserRepository {
         //System.out.println("librarian for testing: " + librarian.getId());
     }
 
+    public User getUserById(String userId){
+        return users.get(userId);
+    }
+
     public User addUser(User user) {
         users.put(user.getId(), user);
         return user;

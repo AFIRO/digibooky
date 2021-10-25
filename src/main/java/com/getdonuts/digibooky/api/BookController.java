@@ -4,6 +4,7 @@ import com.getdonuts.digibooky.api.dto.BookDto;
 import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.services.BookService;
+import com.getdonuts.digibooky.services.LoanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ import java.util.Collection;
 public class BookController {
 
     private final BookService bookService;
+    private final LoanService loanService;
     private Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, LoanService loanService) {
         this.bookService = bookService;
+        this.loanService = loanService;
     }
 
     @GetMapping(produces = "application/json")
@@ -35,7 +38,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public BookWithDetailsDto getBook(@PathVariable(value = "isbn", required = false) String isbn) {
         logger.info("getBook() called");
-        return bookService.getBook(isbn);
+        return loanService.getBookWithDetails(isbn);
     }
 
     @GetMapping(produces = "application/json", path = "/searchByISBN", params = "isbn")

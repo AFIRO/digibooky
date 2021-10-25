@@ -1,9 +1,11 @@
 package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
+import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
 import com.getdonuts.digibooky.api.dto.CreateLoanDto;
 import com.getdonuts.digibooky.api.dto.ReturnLoanDto;
 import com.getdonuts.digibooky.domain.Loan;
+import com.getdonuts.digibooky.domain.User;
 import com.getdonuts.digibooky.exceptions.AuthorisationException;
 import com.getdonuts.digibooky.repository.LoanArchiveRepository;
 import com.getdonuts.digibooky.repository.LoanRepository;
@@ -18,6 +20,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,25 +30,41 @@ public class LoanService {
     private final LoanArchiveRepository loanArchiveRepository;
     private final LoanMapper loanMapper;
     private final BookMapper bookMapper;
-    private final BookService bookservice;
+    private final BookService bookService;
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(LoanService.class);
 
 
     @Autowired
-    public LoanService(LoanRepository loanRepository, LoanArchiveRepository loanArchiveRepository, LoanMapper loanMapper, BookMapper bookMapper, BookService bookservice, UserService userService) {
+    public LoanService(LoanRepository loanRepository, LoanArchiveRepository loanArchiveRepository, LoanMapper loanMapper, BookMapper bookMapper, BookService bookService, UserService userService) {
         this.loanRepository = loanRepository;
         this.loanArchiveRepository = loanArchiveRepository;
         this.loanMapper = loanMapper;
         this.bookMapper = bookMapper;
-        this.bookservice = bookservice;
+        this.bookService = bookService;
         this.userService = userService;
+    }
+
+    public BookWithDetailsDto getBookWithDetails(String isbn) {
+
+        if(!bookService.exists(isbn)){
+            throw new IllegalArgumentException("Book ISBN: " + isbn + " does not exist");
+        }
+
+        Optional<Loan> loan = loanRepository.getLoanByIsbn(isbn);
+
+        if(loan.isPresent()){
+            User user = userService.getUserById(loan.get().getUserId());
+            String userFullName = user.getFirstName() + " " + user.getLastName();
+            return bookMapper.mapToBookWithDetailsDto(bookService.getBookFromRepo(isbn)).setFullName(userFullName);
+        }
+        return bookMapper.mapToBookWithDetailsDto(bookService.getBookFromRepo(isbn));
     }
 
 
     public Loan lendBook(CreateLoanDto createLoanDto) {
         if(isValidLoan(createLoanDto)) {
-            bookservice.getBookFromRepo(createLoanDto.getIsbn()).setLent(true);
+            bookService.getBookFromRepo(createLoanDto.getIsbn()).setLent(true);
             logger.info("Book " + createLoanDto.getIsbn() + " is lent by user " + createLoanDto.getUserId());
             return loanRepository.createLoan(loanMapper.toLoan(createLoanDto));
         }
@@ -82,7 +101,7 @@ public class LoanService {
 
         return loansByUserFromLoanRepository.stream()
                 .map(Loan::getIsbn)
-                .map(bookservice::getBook)
+                .map(bookService::getBook)
                 .map(bookMapper::summaryBookDtoToBookDto)
                 .collect(Collectors.toList());
     }
@@ -93,7 +112,7 @@ public class LoanService {
         return loans.stream()
                 .filter(this::checkIfLate)
                 .map(Loan::getIsbn)
-                .map(bookservice::getBook)
+                .map(bookService::getBook)
                 .map(bookMapper::summaryBookDtoToBookDto)
                 .collect(Collectors.toList());
     }
@@ -112,7 +131,7 @@ public class LoanService {
     }
 
     private void makeBookNotLent(String isbn) {
-        bookservice.getBookFromRepo(isbn).setLent(false);
+        bookService.getBookFromRepo(isbn).setLent(false);
     }
 
     private boolean isValidLoanId(String loanId) {
@@ -134,14 +153,14 @@ public class LoanService {
     }
 
     public boolean bookExists(String isbn) {
-        if(!bookservice.exists(isbn)){
+        if(!bookService.exists(isbn)){
             throw new IllegalArgumentException("Book with isbn : " + isbn + " doesn't exist");
         }
         return true;
     }
 
     public boolean isNotLent(String isbn){
-        if(bookservice.getBook(isbn).isLent()){
+        if(bookService.getBook(isbn).isLent()){
             throw new IllegalArgumentException("Book with isbn : " + isbn + " is already lent");
         }
         return true;
@@ -152,5 +171,9 @@ public class LoanService {
             throw new IllegalArgumentException("User with ID : " + userId + " doesn't has right to loan a book.");
         }
         return true;
+    }
+
+    public Loan getBookByIsbn(String isbn) {
+        return loanRepository.getLoanByIsbn(isbn).get();
     }
 }

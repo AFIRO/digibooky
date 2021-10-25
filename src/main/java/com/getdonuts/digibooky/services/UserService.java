@@ -169,4 +169,8 @@ public class UserService {
         }
         throw new AuthorisationException("User : " + id + " without admin rights tried to add an admin");
     }
+
+    public User getUserById(String userId) {
+        return repo.getUserById(userId);
+    }
 }

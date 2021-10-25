@@ -9,6 +9,16 @@ public class BookWithDetailsDto {
     private Author author;
     private String summary;
     private boolean isLent;
+    private String fullName;
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public BookWithDetailsDto setFullName(String fullName) {
+        this.fullName = fullName;
+        return this;
+    }
 
     public String getISBN() {
         return ISBN;

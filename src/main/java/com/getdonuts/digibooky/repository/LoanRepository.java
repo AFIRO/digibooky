@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -60,5 +61,11 @@ public class LoanRepository {
 
     public List<Loan> getAllLoans() {
         return new ArrayList<>(loansByLoanId.values());
+    }
+
+    public Optional<Loan> getLoanByIsbn(String isbn) {
+        return loansByLoanId.values().stream().
+                filter(loan -> loan.getIsbn().equals(isbn))
+                .findFirst();
     }
 }

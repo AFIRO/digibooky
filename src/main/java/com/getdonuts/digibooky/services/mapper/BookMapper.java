@@ -20,7 +20,7 @@ public class BookMapper {
                 .setAuthor(book.getAuthor());
     }
 
-    public BookWithDetailsDto mapToBookWithSummaryDto(Book book) {
+    public BookWithDetailsDto mapToBookWithDetailsDto(Book book) {
         return new BookWithDetailsDto()
                 .setISBN(book.getISBN())
                 .setTitle(book.getTitle())
