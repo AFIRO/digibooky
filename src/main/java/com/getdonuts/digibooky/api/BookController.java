@@ -4,6 +4,8 @@ import com.getdonuts.digibooky.api.dto.BookDto;
 import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.services.BookService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

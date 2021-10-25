@@ -43,7 +43,7 @@ public class LoanService {
     }
 
     public boolean bookExists(String isbn) {
-        if(!bookservice.exist(isbn)){
+        if(!bookservice.exists(isbn)){
             throw new IllegalArgumentException("Book with isbn : " + isbn + " doesn't exist");
         }
         return true;

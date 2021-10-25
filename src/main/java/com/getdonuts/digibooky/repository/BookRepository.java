@@ -40,17 +40,8 @@ public class BookRepository {
         return booksByIsbn.get(isbn);
     }
 
-    public Set<String> getAllISBN() {
-        return booksByIsbn.keySet();
-    }
-
     public Book registerANewBook(Book book){
         booksByIsbn.put(book.getISBN(), book);
         return book;
-    }
-
-    public Book toggleDeleteBook(String isbn){
-        booksByIsbn.get(isbn).togglePassive();
-        return booksByIsbn.get(isbn);
     }
 }

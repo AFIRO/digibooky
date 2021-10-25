@@ -7,6 +7,8 @@ import com.getdonuts.digibooky.domain.Book;
 import com.getdonuts.digibooky.exceptions.AuthorisationException;
 import com.getdonuts.digibooky.repository.BookRepository;
 import com.getdonuts.digibooky.services.mapper.BookMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final UserService userService;
+    private final Logger logger = LoggerFactory.getLogger(BookService.class);
 
     @Autowired
     public BookService(BookRepository bookRepository, BookMapper bookMapper, UserService userService) {
@@ -105,15 +108,20 @@ public class BookService {
             logger.info("Book " + updatedBook.getISBN() + " is updated" );
             return bookMapper.mapToBookWithSummaryDto(updatedBook);
         } else
-            throw new AuthorisationException();
+            throw new AuthorisationException("User without Librarian rights tried to update a book.");
     }
 
     public boolean toggleDeleteBook(String isbn, String id) {
-        if (userService.validateLibrarian(id) && bookRepository.getAllISBN().contains(isbn)) {
-            bookRepository.toggleDeleteBook(isbn);
+        if (userService.validateLibrarian(id) && exists(isbn)) {
+            if(getBookFromRepo(isbn).isPassive()) {
+                logger.info("Book : " + isbn + " put back in the collection");
+            } else {
+                logger.info("Book : "+ isbn +" removed");
+            }
+            getBookFromRepo(isbn).togglePassive();
             return true;
         } else
-            throw new AuthorisationException();
+            throw new AuthorisationException("User without Librarian rights tried to delete a book.");
     }
 
     public boolean isGiven(String input) {
@@ -121,10 +129,9 @@ public class BookService {
     }
 
 
-    public boolean exist(String isbn) {
-        return (int) getAllBooks().stream()
-                .filter(book -> book.getISBN().equals(isbn))
-                .count() == 1;
+    public boolean exists(String isbn) {
+        return getAllBooks().stream()
+                .anyMatch(book -> book.getISBN().equals(isbn));
     }
 }
 
