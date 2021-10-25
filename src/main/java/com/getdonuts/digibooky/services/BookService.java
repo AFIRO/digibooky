@@ -80,9 +80,10 @@ public class BookService {
         if (userService.validateLibrarian(id) && validateBook(dto)) {
             Book savedBook = bookMapper.MapBookSummaryDTOtoBook(dto);
             bookRepository.registerANewBook(savedBook);
+            logger.info("Book " + dto.getISBN() + " is saved" );
             return dto;
         } else
-            throw new AuthorisationException();
+            throw new AuthorisationException("User without Librarian rights tried to save a book.");
     }
 
     public boolean validateBook(BookWithSummaryDto dto) {
@@ -101,6 +102,7 @@ public class BookService {
         if (userService.validateLibrarian(id)) {
             Book updatedBook = bookMapper.updateBookDtoToBook(dto, bookRepository.getBook(isbn));
             bookRepository.registerANewBook(updatedBook);
+            logger.info("Book " + updatedBook.getISBN() + " is updated" );
             return bookMapper.mapToBookWithSummaryDto(updatedBook);
         } else
             throw new AuthorisationException();
