@@ -27,6 +27,7 @@ public class LoanService {
     public Loan lendBook(CreateLoanDto createLoanDto) {
         if(isValidLoan(createLoanDto)) {
             bookservice.getBookFromRepo(createLoanDto.getIsbn()).setLent(true);
+            logger.info("Book " + createLoanDto.getIsbn() + " is lent by user " + createLoanDto.getUserId());
             return loanRepository.createLoan(loanMapper.toLoan(createLoanDto));
         }
         throw new IllegalArgumentException("Something went wrong...");
