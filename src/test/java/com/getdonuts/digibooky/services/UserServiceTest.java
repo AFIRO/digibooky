@@ -5,10 +5,7 @@ import com.getdonuts.digibooky.api.dto.UserDto;
 import com.getdonuts.digibooky.domain.User;
 import com.getdonuts.digibooky.repository.UserRepository;
 import com.getdonuts.digibooky.services.mapper.UserMapper;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -16,6 +13,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 class UserServiceTest {
 
     private UserService userService;
@@ -30,58 +28,65 @@ class UserServiceTest {
         userService = new UserService(userRepository, userMapper);
     }
 
-    @Test
-    void testSaveMember() {
-        //given
-        dto = new CreateUserDto("9999", "Jean", "Paul", "jean@paul.fr", "Rue", "69", "Bxl", "1000");
-        //when
-        UserDto jeanpaul = userService.saveMember(dto);
-        //then
-        assertEquals("Jean", jeanpaul.getFirstName());
-        assertEquals("Paul", jeanpaul.getLastname());
-        assertEquals("jean@paul.fr", jeanpaul.getEmail());
-        assertEquals("Rue", jeanpaul.getStreet());
-        assertEquals("69", jeanpaul.getHouseNumber());
-        assertEquals("Bxl", jeanpaul.getCity());
-        assertEquals("1000", jeanpaul.getPostcode());
-        assertNotNull(jeanpaul.getId());
-    }
 
-    @Test
-    void whenNoInss_shouldThrowException(){
-        // given
-        dto = new CreateUserDto(null, "Jean", "Paul", "jean@paul.fr", "Rue", "69", "Bxl", "1000");
+    @Nested
+    @DisplayName("Member Tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class TestSaveMember {
 
-        //When
-        //UserDto jeanPaul = userService.saveMember(dto);
+        @Test
+        void saveMember() {
+            //given
+            dto = new CreateUserDto("9999", "Jean", "Paul", "jean@paul.fr", "Rue", "69", "Bxl", "1000");
+            //when
+            UserDto jeanpaul = userService.saveMember(dto);
+            //then
+            assertEquals("Jean", jeanpaul.getFirstName());
+            assertEquals("Paul", jeanpaul.getLastname());
+            assertEquals("jean@paul.fr", jeanpaul.getEmail());
+            assertEquals("Rue", jeanpaul.getStreet());
+            assertEquals("69", jeanpaul.getHouseNumber());
+            assertEquals("Bxl", jeanpaul.getCity());
+            assertEquals("1000", jeanpaul.getPostcode());
+            assertNotNull(jeanpaul.getId());
+        }
 
-        //Then
-        Assertions.assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
-    }
+        @Test
+        void whenNoInss_shouldThrowException() {
+            // given
+            dto = new CreateUserDto(null, "Jean", "Paul", "jean@paul.fr", "Rue", "69", "Bxl", "1000");
+
+            //When
+            //UserDto jeanPaul = userService.saveMember(dto);
+
+            //Then
+            Assertions.assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
+        }
 
 
-    @Test
-    void whenNoEmail_shouldThrowException() {
-        //given
-        dto = new CreateUserDto("9999", "Jean", "Paul", null, "Rue", "69", "Bxl", "1000");
-        //then
-        assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
-    }
+        @Test
+        void whenNoEmail_shouldThrowException() {
+            //given
+            dto = new CreateUserDto("9999", "Jean", "Paul", null, "Rue", "69", "Bxl", "1000");
+            //then
+            assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
+        }
 
-    @Test
-    void whenNoLastName_shouldThrowException() {
-        //given
-        dto = new CreateUserDto("9999", "Jean", null, "jean@paul.fr", "Rue", "69", "Bxl", "1000");
-        //then
-        assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
-    }
+        @Test
+        void whenNoLastName_shouldThrowException() {
+            //given
+            dto = new CreateUserDto("9999", "Jean", null, "jean@paul.fr", "Rue", "69", "Bxl", "1000");
+            //then
+            assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
+        }
 
-    @Test
-    void whenNoCity_shouldThrowException() {
-        //given
-        dto = new CreateUserDto("9999", "Jean", "Paul", "jean@paul.fr", "Rue", "69", null, "1000");
-        //then
-        assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
+        @Test
+        void whenNoCity_shouldThrowException() {
+            //given
+            dto = new CreateUserDto("9999", "Jean", "Paul", "jean@paul.fr", "Rue", "69", null, "1000");
+            //then
+            assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
+        }
     }
 
     @Nested

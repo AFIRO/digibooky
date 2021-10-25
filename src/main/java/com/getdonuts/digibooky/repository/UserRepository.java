@@ -16,15 +16,15 @@ public class UserRepository {
         User userAdmin = new User("12345", "John", "Admin",
                 "test@test.be",
                 new Address("Street", "10", "3000", "Leuven"));
-        User librarian = new User("2354235323", "John", "Librarian",
+        /*User librarian = new User("2354235323", "John", "Librarian",
                 "string@test.be",
-                new Address("Street", "10", "3000", "Leuven"));
+                new Address("Street", "10", "3000", "Leuven"));*/
         userAdmin.setAdmin(true);
-        librarian.setLibrarian(true);
+        //librarian.setLibrarian(true);
         users.put(userAdmin.getId(), userAdmin);
-        users.put(librarian.getId(), librarian);
+        //users.put(librarian.getId(), librarian);
         System.out.println("admin for testing: " + userAdmin.getId());
-        System.out.println("librarian for testing: " + librarian.getId());
+        //System.out.println("librarian for testing: " + librarian.getId());
     }
 
     public User addUser(User user) {
