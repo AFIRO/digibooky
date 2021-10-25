@@ -35,7 +35,7 @@ public class LoanService {
     private boolean isValidLoan(CreateLoanDto createLoanDto) {
         String isbn = createLoanDto.getIsbn();
         String userid = createLoanDto.getUserId();
-        return bookExists(isbn) && isLent(isbn) && userExists(userid) && hasRightToLoan(userid);
+        return bookExists(isbn) && isNotLent(isbn) && userExists(userid) && hasRightToLoan(userid);
     }
 
     public boolean bookExists(String isbn) {
@@ -45,7 +45,7 @@ public class LoanService {
         return true;
     }
 
-    public boolean isLent(String isbn){
+    public boolean isNotLent(String isbn){
         if(bookservice.getBook(isbn).isLent()){
             throw new IllegalArgumentException("Book is already lent");
         }

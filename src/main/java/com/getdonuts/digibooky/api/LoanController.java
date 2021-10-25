@@ -19,7 +19,7 @@ public class LoanController {
 
     @PostMapping(produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Loan createBook(@RequestBody CreateLoanDto createLoanDto) {
+    public Loan createLoan(@RequestBody CreateLoanDto createLoanDto) {
         return loanService.lendBook(createLoanDto);
     }
 }
