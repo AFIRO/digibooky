@@ -35,6 +35,7 @@ public class LoanController {
     @ResponseStatus(HttpStatus.OK)
     public ReturnLoanDto returnLoan(@PathVariable("userId") String userId,
                                     @PathVariable("loanId") String loanId){
+        logger.info("returnLoan() called");
         return loanService.returnLoan(userId, loanId);
     }
 
@@ -42,6 +43,7 @@ public class LoanController {
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getLentBooksByUser(@PathVariable("librarianId") String librarianId,
                                                @PathVariable("userId") String userId) {
+        logger.info("getLentBooksByUser() called");
         return loanService.getLentBooksByUser(librarianId, userId);
     }
 

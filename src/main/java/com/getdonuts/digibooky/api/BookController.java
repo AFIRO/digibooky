@@ -19,7 +19,7 @@ public class BookController {
 
     private final BookService bookService;
     private final LoanService loanService;
-    private Logger logger = LoggerFactory.getLogger(BookController.class);
+    private final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     public BookController(BookService bookService, LoanService loanService) {
