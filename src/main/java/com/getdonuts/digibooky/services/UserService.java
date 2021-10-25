@@ -141,11 +141,14 @@ public class UserService {
         return list.contains(id);
     }
 
-    public UserDto saveMember(CreateUserDto dto) {
-        User createdUser = createUser(dto);
-        createdUser.setMember(true);
-        logger.info("User saved as Member");
-        return userMapper.toDTO(repo.addUser(createdUser));
+    public UserDto saveMember(String id, CreateUserDto dto) {
+        if(validateAdmin(id)){
+            User createdUser = createUser(dto);
+            createdUser.setMember(true);
+            logger.info("User saved as Member");
+            return userMapper.toDTO(repo.addUser(createdUser));
+        }
+        throw new AuthorisationException("User : " + id + " without admin rights tried to add a member");
     }
 
     public UserDto saveLibrarian(String id, CreateUserDto dto) {
