@@ -43,12 +43,23 @@ public class UserService {
     }
 
     private User createUser(CreateUserDto DTO) {
-        if (isINSSunique(DTO.getInss()) && validateMail(DTO.getEmail()) && validateLastName(DTO.getLastName()) && validateCity(DTO.getCity())) {
+        if (isINSSValid(DTO.getInss()) && validateMail(DTO.getEmail()) && validateLastName(DTO.getLastName()) && validateCity(DTO.getCity())) {
             logger.info("User created");
             return userMapper.toUser(DTO);
         }
         else
             throw new IllegalArgumentException("Inputs were not valid");
+    }
+
+    private boolean isINSSValid(String inss) {
+        if(!isGiven(inss)){
+            throw new IllegalArgumentException("inss can not be blank or empty");
+        }
+        return isINSSunique(inss);
+    }
+
+    private boolean isGiven(String input) {
+        return input != null && !input.isEmpty() && !input.isBlank();
     }
 
     private boolean isEmailUnique(String email) {
@@ -90,14 +101,14 @@ public class UserService {
     }
 
     private boolean validateLastName(String input) {
-        if(input == null || input.isEmpty() || input.isBlank()){
+        if(!isGiven(input)){
             throw new IllegalArgumentException("Last name can not be empty");
         }
         return true;
     }
 
     private boolean validateCity(String input) {
-        if(input == null || input.isEmpty() || input.isBlank()){
+        if(!isGiven(input)){
             throw new IllegalArgumentException("City can not be empty.");
         }
         return true;

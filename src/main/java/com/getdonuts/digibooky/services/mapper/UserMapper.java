@@ -17,7 +17,7 @@ public class UserMapper {
     }
 
     public UserDto toDTO(User user){
-        return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getAddress().getStreet(), user.getAddress().getHouseNumber(), user.getAddress().getPostalCode(), user.getAddress().getCity());
+        return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getAddress().getStreet(), user.getAddress().getHouseNumber(), user.getAddress().getCity(), user.getAddress().getPostalCode());
     }
 
     public Collection<UserDto> toDTO(Collection<User> users){
