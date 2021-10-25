@@ -144,28 +144,5 @@ class BookServiceTest {
 
     }
 
-    /*@Nested
-    @DisplayName("Test of deleting a book")
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class deleteBookTest {
 
-        @Test
-        void ifBookSoftDeleted_serviceThrowsException() {
-            bookService.saveBook(bookToTestWith, librarian.getId());
-            bookService.toggleDeleteBook(bookToTestWith.getISBN(), librarian.getId());
-
-            assertThrows(IllegalArgumentException.class, () -> bookService.getBook(bookToTestWith.getISBN()));
-
-        }
-
-        @Test
-        void ifBookrestored_returnbook() {
-            bookService.saveBook(bookToTestWith, librarian.getId());
-            bookService.toggleDeleteBook(bookToTestWith.getISBN(), librarian.getId());
-            bookService.toggleDeleteBook(bookToTestWith.getISBN(), librarian.getId());
-
-            assertEquals(bookToTestWith.getISBN(),bookService.getBook(bookToTestWith.getISBN()).getISBN());
-
-        }
-    }*/
 }
