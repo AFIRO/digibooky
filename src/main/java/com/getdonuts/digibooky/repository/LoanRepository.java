@@ -1,17 +1,24 @@
 package com.getdonuts.digibooky.repository;
 
 import com.getdonuts.digibooky.domain.Loan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class LoanRepository {
 
     private final ConcurrentHashMap<String, Loan> loansByLoanId;
     private final BookRepository bookRepository;
+    private final LoanArchiveRepository loanArchiveRepository;
 
-    public LoanRepository(BookRepository bookRepository) {
+    @Autowired
+    public LoanRepository(BookRepository bookRepository, LoanArchiveRepository loanArchiveRepository) {
         this.bookRepository = bookRepository;
+        this.loanArchiveRepository = loanArchiveRepository;
         this.loansByLoanId = new ConcurrentHashMap<>();
         loansByLoanId.put("1A", new Loan("11", "A"));
         loansByLoanId.put("1B", new Loan("12", "AB"));
@@ -33,8 +40,16 @@ public class LoanRepository {
         return loan;
     }
 
-    public Loan returnLoan(String loanId){
-        return loansByLoanId.get(loanId);
+    public Loan getLoan(String loanId){
+        Loan loanToTransfer = loansByLoanId.get(loanId);
+        loanArchiveRepository.addLoanToArchive(loanToTransfer);
+        return loansByLoanId.remove(loanId);
+    }
+
+    public Collection<Loan> getAllLoansByUser(String userId) {
+        return loansByLoanId.values().stream()
+                .filter(loan -> loan.getUserId().equals(userId))
+                .collect(Collectors.toList());
     }
 
     public boolean containsKey(String loanId) {

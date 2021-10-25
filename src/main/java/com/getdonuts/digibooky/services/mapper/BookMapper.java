@@ -66,4 +66,11 @@ public class BookMapper {
     public boolean isGiven(String input) {
         return !(input == null || input.isEmpty() || input.isBlank());
     }
+
+    public BookDto summaryBookDtoToBookDto(BookWithSummaryDto bookWithSummaryDto) {
+        return new BookDto()
+                .setISBN(bookWithSummaryDto.getISBN())
+                .setTitle(bookWithSummaryDto.getTitle())
+                .setAuthor(bookWithSummaryDto.getAuthor());
+    }
 }

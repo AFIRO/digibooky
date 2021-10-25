@@ -1,5 +1,6 @@
 package com.getdonuts.digibooky.api;
 
+import com.getdonuts.digibooky.api.dto.BookDto;
 import com.getdonuts.digibooky.api.dto.CreateLoanDto;
 import com.getdonuts.digibooky.api.dto.ReturnLoanDto;
 import com.getdonuts.digibooky.services.LoanService;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.getdonuts.digibooky.domain.Loan;
+
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/loans")
 public class LoanController {
@@ -29,9 +33,16 @@ public class LoanController {
 
     @DeleteMapping(produces = "application/json", path = "/{userId}/{loanId}/")
     @ResponseStatus(HttpStatus.OK)
-    public ReturnLoanDto returnLoan(@PathVariable("userId") String userId,
-                                    @PathVariable("loanId") String loanId){
-        return loanService.returnLoan(userId, loanId);
+    public ReturnLoanDto getLoan(@PathVariable("userId") String userId,
+                                 @PathVariable("loanId") String loanId){
+        return loanService.getLoan(userId, loanId);
+    }
+
+    @GetMapping(produces = "application/json", path = "/{librarianId}/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> getLentBooksByUser(@PathVariable("librarianId") String librarianId,
+                                               @PathVariable("userId") String userId) {
+        return loanService.getLentBooksByUser(librarianId, userId);
     }
 
 }
