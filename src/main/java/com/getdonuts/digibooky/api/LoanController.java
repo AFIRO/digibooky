@@ -1,6 +1,7 @@
 package com.getdonuts.digibooky.api;
 
 import com.getdonuts.digibooky.api.dto.CreateLoanDto;
+import com.getdonuts.digibooky.api.dto.ReturnLoanDto;
 import com.getdonuts.digibooky.services.LoanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,4 +26,12 @@ public class LoanController {
         logger.info("lendBook() called");
         return loanService.lendBook(createLoanDto);
     }
+
+    @DeleteMapping(produces = "application/json", path = "/{userId}/{loanId}/")
+    @ResponseStatus(HttpStatus.OK)
+    public ReturnLoanDto returnLoan(@PathVariable("userId") String userId,
+                                    @PathVariable("loanId") String loanId){
+        return loanService.returnLoan(userId, loanId);
+    }
+
 }

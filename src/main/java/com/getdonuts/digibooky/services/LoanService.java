@@ -1,6 +1,7 @@
 package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.CreateLoanDto;
+import com.getdonuts.digibooky.api.dto.ReturnLoanDto;
 import com.getdonuts.digibooky.domain.Loan;
 import com.getdonuts.digibooky.repository.LoanRepository;
 import com.getdonuts.digibooky.services.mapper.LoanMapper;
@@ -8,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class LoanService {
@@ -27,6 +31,7 @@ public class LoanService {
         this.userService = userService;
     }
 
+
     public Loan lendBook(CreateLoanDto createLoanDto) {
         if(isValidLoan(createLoanDto)) {
             bookservice.getBookFromRepo(createLoanDto.getIsbn()).setLent(true);
@@ -34,6 +39,40 @@ public class LoanService {
             return loanRepository.createLoan(loanMapper.toLoan(createLoanDto));
         }
         throw new IllegalArgumentException("Something went wrong...");
+    }
+
+    public ReturnLoanDto returnLoan(String userId, String loanId) {
+
+        if (!isValidLoanId(loanId)){
+            throw new IllegalArgumentException("loan Id: " + loanId + " is not valid");
+        }
+
+        Loan loanToBeReturned = loanRepository.returnLoan(loanId);
+        String message = "";
+        if(userService.validateMember(userId) && userExists(userId)){
+            if(checkIfLate(loanToBeReturned)){
+                message = generateMessage(loanToBeReturned.getDueDate());
+            }
+            makeBookNotLent(loanToBeReturned.getIsbn());
+            return loanMapper.toReturnLoanDto(loanToBeReturned).setMessage(message);
+        }
+        return loanMapper.toReturnLoanDto(loanToBeReturned);
+    }
+
+    private void makeBookNotLent(String isbn) {
+        bookservice.getBookFromRepo(isbn).setLent(false);
+    }
+
+    private boolean isValidLoanId(String loanId) {
+        return loanRepository.containsKey(loanId);
+    }
+
+    private String generateMessage(LocalDate dueDate) {
+        return "The book is returned " + ChronoUnit.DAYS.between(dueDate, LocalDate.now()) + " days late";
+    }
+
+    private boolean checkIfLate(Loan loanToBeReturned) {
+        return loanToBeReturned.getDueDate().isBefore(LocalDate.now());
     }
 
     private boolean isValidLoan(CreateLoanDto createLoanDto) {
@@ -56,6 +95,7 @@ public class LoanService {
         return true;
     }
 
+    // TODO refactor into userService
     public boolean userExists(String userId){
         if(!userService.userExists(userId)){
             throw new IllegalArgumentException("Member with ID : " + userId + " doesn't exist");
@@ -69,4 +109,6 @@ public class LoanService {
         }
         return true;
     }
+
+
 }

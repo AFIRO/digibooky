@@ -2,7 +2,6 @@ package com.getdonuts.digibooky.repository;
 
 import com.getdonuts.digibooky.domain.Loan;
 import org.springframework.stereotype.Repository;
-
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -34,5 +33,11 @@ public class LoanRepository {
         return loan;
     }
 
+    public Loan returnLoan(String loanId){
+        return loansByLoanId.get(loanId);
+    }
 
+    public boolean containsKey(String loanId) {
+        return loansByLoanId.containsKey(loanId);
+    }
 }
