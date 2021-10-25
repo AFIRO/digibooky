@@ -72,9 +72,7 @@ public class LoanService {
     }
 
     public List<BookDto> getLentBooksByUser(String librarianId, String userId) {
-        if (!userService.validateLibrarian(librarianId)) {
-            throw new AuthorisationException();
-        }
+        assertLibrarianIsValid(librarianId);
         assertUserExists(userId);
 
         List<Loan> loansByUserFromLoanRepository = new ArrayList<>(loanRepository.getAllLoansByUser(userId));
@@ -87,6 +85,19 @@ public class LoanService {
                 .map(bookservice::getBook)
                 .map(bookMapper::summaryBookDtoToBookDto)
                 .collect(Collectors.toList());
+    }
+
+    private void assertLibrarianIsValid(String librarianId) {
+        if (!userService.validateLibrarian(librarianId)) {
+            throw new AuthorisationException();
+        }
+    }
+
+    public boolean assertUserExists(String userId){
+        if(!userService.userExists(userId)){
+            throw new IllegalArgumentException("Member with ID : " + userId + " doesn't exist");
+        }
+        return true;
     }
 
     private void makeBookNotLent(String isbn) {
@@ -125,13 +136,7 @@ public class LoanService {
         return true;
     }
 
-    // TODO refactor into userService
-    public boolean assertUserExists(String userId){
-        if(!userService.userExists(userId)){
-            throw new IllegalArgumentException("Member with ID : " + userId + " doesn't exist");
-        }
-        return true;
-    }
+
 
     public boolean hasRightToLoan(String userId){
         if(!userService.validateMember(userId)){
