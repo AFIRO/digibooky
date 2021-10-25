@@ -17,6 +17,7 @@ import java.util.Collection;
 public class BookController {
 
     private final BookService bookService;
+    private Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     public BookController(BookService bookService) {
@@ -26,24 +27,28 @@ public class BookController {
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public Collection<BookDto> getAllBooks() {
+        logger.info("getAllBooks() called");
         return bookService.getAllBooks();
     }
 
     @GetMapping(produces = "application/json", path = "/{isbn}")
     @ResponseStatus(HttpStatus.OK)
     public BookWithSummaryDto getBook(@PathVariable(value = "isbn", required = false) String isbn) {
+        logger.info("getBook() called");
         return bookService.getBook(isbn);
     }
 
     @GetMapping(produces = "application/json", path = "/searchByISBN", params = "isbn")
     @ResponseStatus(HttpStatus.OK)
     public Collection<BookDto> getBookWithRegexIsbn(@RequestParam(value = "isbn") String isbnRegex) {
+        logger.info("getBookWithRegexIsbn() called");
         return bookService.getBookWithRegexIsbn(isbnRegex);
     }
 
     @GetMapping(produces = "application/json", path = "/searchByTitle", params = "title")
     @ResponseStatus(HttpStatus.OK)
     public Collection<BookDto> getBookByTitleWithRegex(@RequestParam(value = "title") String titleRegex) {
+        logger.info("getBookByTitleWithRegex() called");
         return bookService.getBookWithRegexTitle(titleRegex);
     }
 
@@ -52,24 +57,28 @@ public class BookController {
     public Collection<BookDto> getBookByAuthor(
             @RequestParam(name = "firstName", required = false, defaultValue = "") String firstname,
             @RequestParam(name = "lastName", required = false, defaultValue = "") String lastname) {
+        logger.info("getBookByAuthor() called");
         return bookService.getBookByAuthor(firstname, lastname);
     }
 
     @PostMapping(produces = "application/json", consumes = "application/json", path = "/{id})")
     @ResponseStatus(HttpStatus.CREATED)
     public BookWithSummaryDto createBook(@RequestBody BookWithSummaryDto dto, @PathVariable("id") String id) {
+        logger.info("createBook() called");
         return bookService.saveBook(dto, id);
     }
 
     @PatchMapping(produces = "application/json", consumes = "application/json", path = "/{id}/{isbn}")
     @ResponseStatus(HttpStatus.OK)
     public BookWithSummaryDto updateBook(@RequestBody UpdateBookDto dto, @PathVariable("id") String id, @PathVariable("isbn") String isbn) {
+        logger.info("updateBook() called");
         return bookService.updateBook(dto, isbn, id);
     }
 
     @DeleteMapping(path = "/{id}/{isbn}")
     @ResponseStatus(HttpStatus.OK)
     public boolean toggleDeleteBook(@PathVariable("id") String id, @PathVariable("isbn") String isbn) {
+        logger.info("toggleDeleteBook() called");
         return bookService.toggleDeleteBook(isbn, id);
     }
 }

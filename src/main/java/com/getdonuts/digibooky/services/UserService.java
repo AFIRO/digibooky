@@ -31,7 +31,7 @@ public class UserService {
 
     public Collection<UserDto> getAll(String id) {
         if (!validateAdmin(id)) {
-            throw new IllegalArgumentException("User with ID number " + id + " has no admin rights to perform this action.");
+            throw new AuthorisationException("User with ID number " + id + " has no admin rights to perform this action.");
         }
         return userMapper.toDTO(repo.getUsers());
     }
@@ -141,19 +141,19 @@ public class UserService {
         if(validateAdmin(id)) {
             User createdUser = createUser(dto);
             createdUser.setLibrarian(true);
-            logger.info("User saved as Librarian");
+            logger.info("User saved as Librarian by " + id);
             return userMapper.toDTO(repo.addUser(createdUser));
         }
-        throw new AuthorisationException("User without admin rights tried to access restricted data");
+        throw new AuthorisationException("User : " + id + " without admin rights tried to add a librarian");
     }
 
     public UserDto saveAdmin(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createUser(dto);
             createdUser.setAdmin(true);
-            logger.info("User saved as Admin");
+            logger.info("User saved as Admin by " + id);
             return userMapper.toDTO(repo.addUser(createdUser));
         }
-        throw new AuthorisationException("User without admin rights tried to access restricted data");
+        throw new AuthorisationException("User : " + id + " without admin rights tried to add an admin");
     }
 }

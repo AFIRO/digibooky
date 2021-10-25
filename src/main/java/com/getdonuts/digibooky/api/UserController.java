@@ -31,18 +31,21 @@ public class UserController {
     @PostMapping(produces = "application/json", consumes = "application/json", path = "/librarian/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createLibrarian(@PathVariable String id, @RequestBody CreateUserDto DTO) {
+        logger.info("createLibrarian() called");
         return userService.saveLibrarian(id, DTO);
     }
 
     @PostMapping(produces = "application/json", consumes = "application/json", path = "/admin/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createAdmin(@PathVariable String id, @RequestBody CreateUserDto DTO) {
+        logger.info("createAdmin() called");
         return userService.saveAdmin(id, DTO);
     }
 
     @GetMapping(produces = "application/json", path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Collection<UserDto> getAllUsers(@PathVariable String id){
+        logger.info("getAllUsers() called");
         return userService.getAll(id);
     }
 }
