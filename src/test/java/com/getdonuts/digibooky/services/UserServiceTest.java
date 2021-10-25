@@ -2,12 +2,16 @@ package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.CreateUserDto;
 import com.getdonuts.digibooky.api.dto.UserDto;
+import com.getdonuts.digibooky.domain.User;
 import com.getdonuts.digibooky.repository.UserRepository;
 import com.getdonuts.digibooky.services.mapper.UserMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -79,5 +83,38 @@ class UserServiceTest {
         //then
         assertThrows(IllegalArgumentException.class, () -> userService.saveMember(dto));
     }
+
+    @Nested
+    @DisplayName("Librarian Tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class TestSaveLibrarian {
+
+        private User admin;
+
+        @BeforeAll
+        void setup() {
+            // The hard coded librarian in the repo needs to be commented or removed
+            admin = new ArrayList<>(userRepository.getUsers()).get(0);
+        }
+
+        @Test
+        public void whenSavingLibrarian_returnLibrarian(){
+            //given
+            dto = new CreateUserDto("9998", "Jean", "Paul", "jean@paul1.fr", "Rue", "69", "Bxl", "1000");
+            //when
+            UserDto jeanpaul = userService.saveLibrarian(admin.getId(), dto);
+            //then
+            assertEquals("Jean", jeanpaul.getFirstName());
+            assertEquals("Paul", jeanpaul.getLastname());
+            assertEquals("jean@paul1.fr", jeanpaul.getEmail());
+            assertEquals("Rue", jeanpaul.getStreet());
+            assertEquals("69", jeanpaul.getHouseNumber());
+            assertEquals("Bxl", jeanpaul.getCity());
+            assertEquals("1000", jeanpaul.getPostcode());
+            assertNotNull(jeanpaul.getId());
+        }
+
+    }
+
 
 }
