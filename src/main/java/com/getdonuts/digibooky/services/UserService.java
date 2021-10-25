@@ -6,6 +6,8 @@ import com.getdonuts.digibooky.domain.User;
 import com.getdonuts.digibooky.exceptions.AuthorisationException;
 import com.getdonuts.digibooky.repository.UserRepository;
 import com.getdonuts.digibooky.services.mapper.UserMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository repo;
     private final UserMapper userMapper;
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     public UserService(UserRepository repo, UserMapper userMapper) {
@@ -53,14 +56,14 @@ public class UserService {
                 .collect(Collectors.toList());
 
         if (allMemberEmails.contains(email)) {
-            throw new IllegalArgumentException("This e-mail is already used.");
+            throw new IllegalArgumentException("This e-mail : " + email + " is already used.");
         }
         return true;
     }
 
     private boolean isEmailValid(String email) {
         if (email == null || email.isEmpty() || email.isBlank())
-            return false;
+            throw new IllegalArgumentException("Email can not be empty.");
 
         Pattern regex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(email);
@@ -68,7 +71,7 @@ public class UserService {
         if (matcher.find())
             return true;
         else
-            throw new IllegalArgumentException("This e-mail is not valid.");
+            throw new IllegalArgumentException("This e-mail : " + email  +" is not valid.");
     }
 
     private boolean isINSSunique(String inss) {
@@ -76,7 +79,7 @@ public class UserService {
                 .map(User::getINSS)
                 .collect(Collectors.toList());
         if (allUserInss.contains(inss)) {
-            throw new IllegalArgumentException("INSS is already used.");
+            throw new IllegalArgumentException("INSS : " + inss + "  is already used.");
         }
         return true;
     }
@@ -94,7 +97,7 @@ public class UserService {
 
     private boolean validateCity(String input) {
         if(input == null || input.isEmpty() || input.isBlank()){
-            throw new IllegalArgumentException("City is not valid.");
+            throw new IllegalArgumentException("City can not be empty.");
         }
         return true;
     }
@@ -132,18 +135,16 @@ public class UserService {
         return userMapper.toDTO(repo.addUser(createdUser));
     }
 
-
-    // TODO refactor this method
     public UserDto saveLibrarian(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createUser(dto);
             createdUser.setLibrarian(true);
+            logger.info("User saved as Librarian");
             return userMapper.toDTO(repo.addUser(createdUser));
         }
         throw new AuthorisationException("Admin rights necessary");
     }
 
-    // TODO refactor this method
     public UserDto saveAdmin(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createUser(dto);
