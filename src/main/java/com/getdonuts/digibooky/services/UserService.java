@@ -51,14 +51,14 @@ public class UserService {
     }
 
     private boolean isINSSValid(String inss) {
-        if (!isGiven(inss)) {
+        if (isNotGiven(inss)) {
             throw new IllegalArgumentException("inss can not be blank or empty");
         }
         return isINSSunique(inss);
     }
 
-    private boolean isGiven(String input) {
-        return input != null && !input.isEmpty() && !input.isBlank();
+    private boolean isNotGiven(String input) {
+        return input == null || input.isEmpty() || input.isBlank();
     }
 
     private boolean isEmailUnique(String email) {
@@ -100,14 +100,14 @@ public class UserService {
     }
 
     private boolean validateLastName(String input) {
-        if (!isGiven(input)) {
+        if (isNotGiven(input)) {
             throw new IllegalArgumentException("Last name can not be empty");
         }
         return true;
     }
 
     private boolean validateCity(String input) {
-        if (!isGiven(input)) {
+        if (isNotGiven(input)) {
             throw new IllegalArgumentException("City can not be empty.");
         }
         return true;
