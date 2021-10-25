@@ -4,13 +4,11 @@ import com.getdonuts.digibooky.domain.Author;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class BookWithSummaryDtoTest {
+class BookWithDetailsDtoTest {
 
     @Test
     void givenCorrectInputs_WhenBuilderIsCalled_ReturnObject(){
-        BookWithSummaryDto toTest = new BookWithSummaryDto()
+        BookWithDetailsDto toTest = new BookWithDetailsDto()
                 .setISBN("342332434")
                 .setAuthor(new Author("testy","mctest"))
                 .setTitle("testbook")

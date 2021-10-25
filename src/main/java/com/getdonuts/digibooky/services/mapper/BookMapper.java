@@ -1,7 +1,7 @@
 package com.getdonuts.digibooky.services.mapper;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
-import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
+import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.domain.Book;
 import org.springframework.stereotype.Component;
@@ -20,8 +20,8 @@ public class BookMapper {
                 .setAuthor(book.getAuthor());
     }
 
-    public BookWithSummaryDto mapToBookWithSummaryDto(Book book) {
-        return new BookWithSummaryDto()
+    public BookWithDetailsDto mapToBookWithSummaryDto(Book book) {
+        return new BookWithDetailsDto()
                 .setISBN(book.getISBN())
                 .setTitle(book.getTitle())
                 .setAuthor(book.getAuthor())
@@ -35,7 +35,7 @@ public class BookMapper {
                 .collect(Collectors.toList());
     }
 
-    public Book MapBookSummaryDTOtoBook(BookWithSummaryDto book){
+    public Book MapBookSummaryDTOtoBook(BookWithDetailsDto book){
         return new Book()
                 .setISBN(book.getISBN())
                 .setTitle(book.getTitle())
@@ -67,10 +67,10 @@ public class BookMapper {
         return !(input == null || input.isEmpty() || input.isBlank());
     }
 
-    public BookDto summaryBookDtoToBookDto(BookWithSummaryDto bookWithSummaryDto) {
+    public BookDto summaryBookDtoToBookDto(BookWithDetailsDto bookWithDetailsDto) {
         return new BookDto()
-                .setISBN(bookWithSummaryDto.getISBN())
-                .setTitle(bookWithSummaryDto.getTitle())
-                .setAuthor(bookWithSummaryDto.getAuthor());
+                .setISBN(bookWithDetailsDto.getISBN())
+                .setTitle(bookWithDetailsDto.getTitle())
+                .setAuthor(bookWithDetailsDto.getAuthor());
     }
 }

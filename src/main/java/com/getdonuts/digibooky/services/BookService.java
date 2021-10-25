@@ -1,7 +1,7 @@
 package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
-import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
+import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.domain.Book;
 import com.getdonuts.digibooky.exceptions.AuthorisationException;
@@ -36,7 +36,7 @@ public class BookService {
         return bookMapper.mapToDto(bookRepository.getAllBooks());
     }
 
-    public BookWithSummaryDto getBook(String isbn) {
+    public BookWithDetailsDto getBook(String isbn) {
         return bookMapper.mapToBookWithSummaryDto(bookRepository.getBook(isbn));
     }
 
@@ -79,7 +79,7 @@ public class BookService {
         return controlNumber == Character.getNumericValue(ISBN.charAt(12));
     }
 
-    public BookWithSummaryDto saveBook(BookWithSummaryDto dto, String id) {
+    public BookWithDetailsDto saveBook(BookWithDetailsDto dto, String id) {
         if (userService.validateLibrarian(id) && validateBook(dto)) {
             Book savedBook = bookMapper.MapBookSummaryDTOtoBook(dto);
             bookRepository.registerANewBook(savedBook);
@@ -89,7 +89,7 @@ public class BookService {
             throw new AuthorisationException("User without Librarian rights tried to save a book.");
     }
 
-    public boolean validateBook(BookWithSummaryDto dto) {
+    public boolean validateBook(BookWithDetailsDto dto) {
         if (!isGiven(dto.getSummary()))
             dto.setSummary("No summary given.");
 
@@ -100,7 +100,7 @@ public class BookService {
 
     }
 
-    public BookWithSummaryDto updateBook(UpdateBookDto dto, String isbn, String id) {
+    public BookWithDetailsDto updateBook(UpdateBookDto dto, String isbn, String id) {
 
         if (userService.validateLibrarian(id)) {
             Book updatedBook = bookMapper.updateBookDtoToBook(dto, bookRepository.getBook(isbn));

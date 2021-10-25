@@ -1,7 +1,7 @@
 package com.getdonuts.digibooky.api;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
-import com.getdonuts.digibooky.api.dto.BookWithSummaryDto;
+import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.services.BookService;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class BookController {
 
     @GetMapping(produces = "application/json", path = "/{isbn}")
     @ResponseStatus(HttpStatus.OK)
-    public BookWithSummaryDto getBook(@PathVariable(value = "isbn", required = false) String isbn) {
+    public BookWithDetailsDto getBook(@PathVariable(value = "isbn", required = false) String isbn) {
         logger.info("getBook() called");
         return bookService.getBook(isbn);
     }
@@ -63,14 +63,14 @@ public class BookController {
 
     @PostMapping(produces = "application/json", consumes = "application/json", path = "/{id})")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookWithSummaryDto createBook(@RequestBody BookWithSummaryDto dto, @PathVariable("id") String id) {
+    public BookWithDetailsDto createBook(@RequestBody BookWithDetailsDto dto, @PathVariable("id") String id) {
         logger.info("createBook() called");
         return bookService.saveBook(dto, id);
     }
 
     @PatchMapping(produces = "application/json", consumes = "application/json", path = "/{id}/{isbn}")
     @ResponseStatus(HttpStatus.OK)
-    public BookWithSummaryDto updateBook(@RequestBody UpdateBookDto dto, @PathVariable("id") String id, @PathVariable("isbn") String isbn) {
+    public BookWithDetailsDto updateBook(@RequestBody UpdateBookDto dto, @PathVariable("id") String id, @PathVariable("isbn") String isbn) {
         logger.info("updateBook() called");
         return bookService.updateBook(dto, isbn, id);
     }

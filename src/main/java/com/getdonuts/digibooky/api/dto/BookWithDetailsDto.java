@@ -2,7 +2,7 @@ package com.getdonuts.digibooky.api.dto;
 
 import com.getdonuts.digibooky.domain.Author;
 
-public class BookWithSummaryDto {
+public class BookWithDetailsDto {
 
     private String ISBN;
     private String title;
@@ -14,7 +14,7 @@ public class BookWithSummaryDto {
         return ISBN;
     }
 
-    public BookWithSummaryDto setISBN(String ISBN) {
+    public BookWithDetailsDto setISBN(String ISBN) {
         this.ISBN = ISBN;
         return this;
     }
@@ -23,7 +23,7 @@ public class BookWithSummaryDto {
         return title;
     }
 
-    public BookWithSummaryDto setTitle(String title) {
+    public BookWithDetailsDto setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -32,7 +32,7 @@ public class BookWithSummaryDto {
         return author;
     }
 
-    public BookWithSummaryDto setAuthor(Author author) {
+    public BookWithDetailsDto setAuthor(Author author) {
         this.author = author;
         return this;
     }
@@ -41,7 +41,7 @@ public class BookWithSummaryDto {
         return summary;
     }
 
-    public BookWithSummaryDto setSummary(String summary) {
+    public BookWithDetailsDto setSummary(String summary) {
         this.summary = summary;
         return this;
     }
@@ -50,7 +50,7 @@ public class BookWithSummaryDto {
         return isLent;
     }
 
-    public BookWithSummaryDto setLent(boolean lent) {
+    public BookWithDetailsDto setLent(boolean lent) {
         isLent = lent;
         return this;
     }
