@@ -3,6 +3,8 @@ package com.getdonuts.digibooky.api;
 import com.getdonuts.digibooky.api.dto.CreateUserDto;
 import com.getdonuts.digibooky.api.dto.UserDto;
 import com.getdonuts.digibooky.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,7 @@ import java.util.Collection;
 @RequestMapping(path = "/members")
 public class UserController {
     private final UserService userService;
-
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -22,6 +24,7 @@ public class UserController {
     @PostMapping(produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createMember(@RequestBody CreateUserDto DTO) {
+        logger.info("createMember() called");
         return userService.saveMember(DTO);
     }
 
