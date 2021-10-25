@@ -22,6 +22,7 @@ public class BookControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     @ExceptionHandler(IllegalArgumentException.class)
     protected void illegalArgumentException(IllegalArgumentException exception, HttpServletResponse response) throws Exception{
+        logger.error(exception.getMessage());
         response.sendError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
     }
 
