@@ -39,13 +39,14 @@ public class UserService {
     public boolean userExists(String id){
         return repo.getUsers()
                 .stream()
-                .filter(user -> user.getId().equals(id))
-                .count() == 1;
+                .anyMatch(user -> user.getId().equals(id));
     }
 
     private User createUser(CreateUserDto DTO) {
-        if (isINSSunique(DTO.getInss()) && validateMail(DTO.getEmail()) && validateLastName(DTO.getLastName()) && validateCity(DTO.getCity()))
+        if (isINSSunique(DTO.getInss()) && validateMail(DTO.getEmail()) && validateLastName(DTO.getLastName()) && validateCity(DTO.getCity())) {
+            logger.info("User created");
             return userMapper.toUser(DTO);
+        }
         else
             throw new IllegalArgumentException("Inputs were not valid");
     }
@@ -90,7 +91,7 @@ public class UserService {
 
     private boolean validateLastName(String input) {
         if(input == null || input.isEmpty() || input.isBlank()){
-            throw new IllegalArgumentException("Last name is not valid.");
+            throw new IllegalArgumentException("Last name can not be empty");
         }
         return true;
     }
@@ -132,6 +133,7 @@ public class UserService {
     public UserDto saveMember(CreateUserDto dto) {
         User createdUser = createUser(dto);
         createdUser.setMember(true);
+        logger.info("User saved as Member");
         return userMapper.toDTO(repo.addUser(createdUser));
     }
 
@@ -142,15 +144,16 @@ public class UserService {
             logger.info("User saved as Librarian");
             return userMapper.toDTO(repo.addUser(createdUser));
         }
-        throw new AuthorisationException("Admin rights necessary");
+        throw new AuthorisationException("User without admin rights tried to access restricted data");
     }
 
     public UserDto saveAdmin(String id, CreateUserDto dto) {
         if(validateAdmin(id)) {
             User createdUser = createUser(dto);
             createdUser.setAdmin(true);
+            logger.info("User saved as Admin");
             return userMapper.toDTO(repo.addUser(createdUser));
         }
-        throw new AuthorisationException("Admin rights necessary");
+        throw new AuthorisationException("User without admin rights tried to access restricted data");
     }
 }
