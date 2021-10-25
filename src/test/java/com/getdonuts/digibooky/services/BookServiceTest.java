@@ -157,5 +157,15 @@ class BookServiceTest {
             assertThrows(IllegalArgumentException.class, () -> bookService.getBook(bookToTestWith.getISBN()));
 
         }
+
+        @Test
+        void ifBookrestored_returnbook() {
+            bookService.saveBook(bookToTestWith, librarian.getId());
+            bookService.toggleDeleteBook(bookToTestWith.getISBN(), librarian.getId());
+            bookService.toggleDeleteBook(bookToTestWith.getISBN(), librarian.getId());
+
+            assertEquals(bookToTestWith.getISBN(),bookService.getBook(bookToTestWith.getISBN()).getISBN());
+
+        }
     }*/
 }

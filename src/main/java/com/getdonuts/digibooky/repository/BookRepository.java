@@ -28,6 +28,12 @@ public class BookRepository {
                 .collect(Collectors.toList());
     }
 
+    public Collection<Book> getAllBooksIncludingPassiveBooks(){
+        return booksByIsbn.values().stream()
+                .collect(Collectors.toList());
+    }
+
+
     public Book getBook(String isbn){
         if(!booksByIsbn.containsKey(isbn)){
             throw new IllegalArgumentException("ISBN should not be empty");

@@ -39,6 +39,10 @@ public class BookService {
         return bookMapper.mapToDto(bookRepository.getAllBooks());
     }
 
+    public Collection<BookDto> getAllBooksIncludingPassiveBooks() {
+        return bookMapper.mapToDto(bookRepository.getAllBooksIncludingPassiveBooks());
+    }
+
     public BookWithDetailsDto getBook(String isbn) {
         return bookMapper.mapToBookWithDetailsDto(bookRepository.getBook(isbn));
     }
@@ -133,7 +137,7 @@ public class BookService {
 
 
     public boolean exists(String isbn) {
-        return getAllBooks().stream()
+        return getAllBooksIncludingPassiveBooks().stream()
                 .anyMatch(book -> book.getISBN().equals(isbn));
     }
 }
