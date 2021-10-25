@@ -4,6 +4,8 @@ import com.getdonuts.digibooky.api.dto.CreateLoanDto;
 import com.getdonuts.digibooky.domain.Loan;
 import com.getdonuts.digibooky.repository.LoanRepository;
 import com.getdonuts.digibooky.services.mapper.LoanMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ public class LoanService {
     private final LoanMapper loanMapper;
     private final BookService bookservice;
     private final UserService userService;
+    private final Logger logger = LoggerFactory.getLogger(LoanService.class);
 
 
     @Autowired
@@ -41,28 +44,28 @@ public class LoanService {
 
     public boolean bookExists(String isbn) {
         if(!bookservice.exist(isbn)){
-            throw new IllegalArgumentException("Book doesn't exist");
+            throw new IllegalArgumentException("Book with isbn : " + isbn + " doesn't exist");
         }
         return true;
     }
 
     public boolean isNotLent(String isbn){
         if(bookservice.getBook(isbn).isLent()){
-            throw new IllegalArgumentException("Book is already lent");
+            throw new IllegalArgumentException("Book with isbn : " + isbn + " is already lent");
         }
         return true;
     }
 
     public boolean userExists(String userId){
         if(!userService.userExists(userId)){
-            throw new IllegalArgumentException("Member doesn't exist");
+            throw new IllegalArgumentException("Member with ID : " + userId + " doesn't exist");
         }
         return true;
     }
 
     public boolean hasRightToLoan(String userId){
         if(!userService.validateMember(userId)){
-            throw new IllegalArgumentException("User doesn't has right to loan a book.");
+            throw new IllegalArgumentException("User with ID : " + userId + " doesn't has right to loan a book.");
         }
         return true;
     }
