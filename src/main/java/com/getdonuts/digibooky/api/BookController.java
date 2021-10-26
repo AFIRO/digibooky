@@ -65,7 +65,7 @@ public class BookController {
         return bookService.getBookByAuthor(firstname, lastname);
     }
 
-    @PostMapping(produces = "application/json", consumes = "application/json", path = "/{id})")
+    @PostMapping(produces = "application/json", consumes = "application/json", path = "/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public CreateBookDto createBook(@RequestBody CreateBookDto dto, @PathVariable("id") String id) {
         logger.info("createBook() called");
