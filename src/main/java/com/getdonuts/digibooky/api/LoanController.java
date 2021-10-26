@@ -19,6 +19,7 @@ public class LoanController {
 
     private final LoanService loanService;
     private final Logger logger = LoggerFactory.getLogger(LoanController.class);
+
     @Autowired
     public LoanController(LoanService loanService) {
         this.loanService = loanService;
@@ -34,7 +35,7 @@ public class LoanController {
     @DeleteMapping(produces = "application/json", path = "/{userId}/{loanId}/")
     @ResponseStatus(HttpStatus.OK)
     public ReturnLoanDto returnLoan(@PathVariable("userId") String userId,
-                                    @PathVariable("loanId") String loanId){
+                                    @PathVariable("loanId") String loanId) {
         logger.info("returnLoan() called");
         return loanService.returnLoan(userId, loanId);
     }
@@ -42,11 +43,10 @@ public class LoanController {
     @GetMapping(produces = "application/json", path = "/{librarianId}/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getLentBooksByUser(@PathVariable("librarianId") String librarianId,
-                                               @PathVariable("userId") String userId) {
+                                            @PathVariable("userId") String userId) {
         logger.info("getLentBooksByUser() called");
         return loanService.getLentBooksByUser(librarianId, userId);
     }
-
 
     @GetMapping(produces = "application/json", path = "/overdue/{librarianId}")
     @ResponseStatus(HttpStatus.OK)
