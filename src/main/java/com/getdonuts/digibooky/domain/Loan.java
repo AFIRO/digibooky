@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public class Loan {
     private final String loanId;
-    private String userId;
+    private final String userId;
     private String isbn;
     private final LocalDate lendingDate;
-    private LocalDate dueDate;
+    private final LocalDate dueDate;
 
     private static final int DEFAULT_DUE_PERIOD = 3;
 
@@ -33,10 +33,6 @@ public class Loan {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getIsbn() {
         return isbn;
     }
@@ -51,10 +47,6 @@ public class Loan {
 
     public LocalDate getDueDate() {
         return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
     }
 
     @Override
