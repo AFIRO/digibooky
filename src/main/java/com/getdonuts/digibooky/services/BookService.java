@@ -2,6 +2,7 @@ package com.getdonuts.digibooky.services;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
 import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
+import com.getdonuts.digibooky.api.dto.CreateBookDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.domain.Book;
 import com.getdonuts.digibooky.domain.Loan;
@@ -86,9 +87,9 @@ public class BookService {
         return controlNumber == Character.getNumericValue(ISBN.charAt(12));
     }
 
-    public BookWithDetailsDto saveBook(BookWithDetailsDto dto, String id) {
-        if (userService.validateLibrarian(id) && validateBook(dto)) {
-            Book savedBook = bookMapper.MapBookSummaryDTOtoBook(dto);
+    public CreateBookDto saveBook(CreateBookDto dto, String id) {
+        if (userService.validateLibrarian(id) && validateBook(bookMapper.mapCreateBookDtotoBookWithDetailsDto(dto))) {
+            Book savedBook = bookMapper.MapBookSummaryDTOtoBook(bookMapper.mapCreateBookDtotoBookWithDetailsDto(dto));
             bookRepository.registerANewBook(savedBook);
             logger.info("Book " + dto.getISBN() + " is saved" );
             return dto;

@@ -1,9 +1,6 @@
 package com.getdonuts.digibooky.services;
 
-import com.getdonuts.digibooky.api.dto.BookDto;
-import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
-import com.getdonuts.digibooky.api.dto.CreateUserDto;
-import com.getdonuts.digibooky.api.dto.UserDto;
+import com.getdonuts.digibooky.api.dto.*;
 import com.getdonuts.digibooky.domain.Author;
 import com.getdonuts.digibooky.domain.User;
 import com.getdonuts.digibooky.exceptions.AuthorisationException;
@@ -27,7 +24,7 @@ class BookServiceTest {
     private UserRepository userRepository;
     private UserMapper userMapper;
     private User admin;
-    BookWithDetailsDto bookToTestWith;
+    CreateBookDto bookToTestWith;
     UserDto librarian;
     UserDto member;
 
@@ -45,7 +42,7 @@ class BookServiceTest {
         librarian = userService.saveLibrarian(admin.getId(), dto);
         dto = new CreateUserDto("8888", "Jean", "Luc", "jean@luc.fr", "Rue", "69", "Bxl", "1000");
         member = userService.saveMember(dto);
-        bookToTestWith = new BookWithDetailsDto().setAuthor(new Author("blah", "blah")).setISBN("53543534").setTitle("Lord of the rings").setSummary("summary");
+        bookToTestWith = new CreateBookDto().setAuthor(new Author("blah", "blah")).setISBN("53543534").setTitle("Lord of the rings").setSummary("summary");
     }
 
     @Nested
@@ -82,7 +79,7 @@ class BookServiceTest {
         void ifNoISBN_throwException() {
             // when
 
-            BookWithDetailsDto bookWithoutISBN = new BookWithDetailsDto().setAuthor(new Author("blah", "blah")).setISBN("").setTitle("Lord of the rings").setSummary("summary");
+            CreateBookDto bookWithoutISBN = new CreateBookDto().setAuthor(new Author("blah", "blah")).setISBN("").setTitle("Lord of the rings").setSummary("summary");
 
             // then
             assertThrows(IllegalArgumentException.class, () -> bookService.saveBook(bookWithoutISBN, librarian.getId()));
@@ -92,7 +89,7 @@ class BookServiceTest {
         void ifNoTitle_throwException() {
             // when
 
-            BookWithDetailsDto bookWithoutTitle = new BookWithDetailsDto().setAuthor(new Author("blah", "blah")).setISBN("53543534").setTitle("").setSummary("summary");
+            CreateBookDto bookWithoutTitle = new CreateBookDto().setAuthor(new Author("blah", "blah")).setISBN("53543534").setTitle("").setSummary("summary");
 
             // then
             assertThrows(IllegalArgumentException.class, () -> bookService.saveBook(bookWithoutTitle, librarian.getId()));
@@ -102,7 +99,7 @@ class BookServiceTest {
         void ifNoAuthorLastName_throwException() {
             // when
 
-            BookWithDetailsDto bookWithoutValidAuthor = new BookWithDetailsDto().setAuthor(new Author("blah", null)).setISBN("4355345").setTitle("Lord of t he rings").setSummary("summary");
+            CreateBookDto bookWithoutValidAuthor = new CreateBookDto().setAuthor(new Author("blah", null)).setISBN("4355345").setTitle("Lord of t he rings").setSummary("summary");
 
             // then
             assertThrows(IllegalArgumentException.class, () -> bookService.saveBook(bookWithoutValidAuthor, librarian.getId()));

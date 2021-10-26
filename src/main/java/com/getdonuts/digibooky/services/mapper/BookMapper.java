@@ -2,6 +2,7 @@ package com.getdonuts.digibooky.services.mapper;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
 import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
+import com.getdonuts.digibooky.api.dto.CreateBookDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.domain.Book;
 import org.springframework.stereotype.Component;
@@ -42,6 +43,13 @@ public class BookMapper {
                 .setAuthor(book.getAuthor())
                 .setLent(book.isLent())
                 .setSummary(book.getSummary());
+    }
+
+    public BookWithDetailsDto mapCreateBookDtotoBookWithDetailsDto(CreateBookDto dto) {
+        return new BookWithDetailsDto().setISBN(dto.getISBN())
+                .setAuthor(dto.getAuthor())
+                .setTitle(dto.getTitle())
+                .setSummary(dto.getSummary());
     }
 
     public Book updateBookDtoToBook(UpdateBookDto updateBookDto, Book book) {

@@ -48,7 +48,7 @@ public class LoanController {
     }
 
 
-    @GetMapping(produces = "application/json", path = "/{librarianId}")
+    @GetMapping(produces = "application/json", path = "/overdue/{librarianId}")
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getOverdueBooks(@PathVariable("librarianId") String librarianId) {
         logger.info("getOverdueBooks() called");

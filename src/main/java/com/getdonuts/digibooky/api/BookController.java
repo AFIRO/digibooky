@@ -2,6 +2,7 @@ package com.getdonuts.digibooky.api;
 
 import com.getdonuts.digibooky.api.dto.BookDto;
 import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
+import com.getdonuts.digibooky.api.dto.CreateBookDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.services.BookService;
 import com.getdonuts.digibooky.services.LoanService;
@@ -66,7 +67,7 @@ public class BookController {
 
     @PostMapping(produces = "application/json", consumes = "application/json", path = "/{id})")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookWithDetailsDto createBook(@RequestBody BookWithDetailsDto dto, @PathVariable("id") String id) {
+    public CreateBookDto createBook(@RequestBody CreateBookDto dto, @PathVariable("id") String id) {
         logger.info("createBook() called");
         return bookService.saveBook(dto, id);
     }
