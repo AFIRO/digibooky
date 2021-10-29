@@ -5,11 +5,8 @@ import com.getdonuts.digibooky.api.dto.BookWithDetailsDto;
 import com.getdonuts.digibooky.api.dto.CreateBookDto;
 import com.getdonuts.digibooky.api.dto.UpdateBookDto;
 import com.getdonuts.digibooky.domain.Book;
-import com.getdonuts.digibooky.domain.Loan;
-import com.getdonuts.digibooky.domain.User;
 import com.getdonuts.digibooky.exceptions.AuthorisationException;
 import com.getdonuts.digibooky.repository.BookRepository;
-import com.getdonuts.digibooky.repository.LoanArchiveRepository;
 import com.getdonuts.digibooky.services.mapper.BookMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +45,7 @@ public class BookService {
         return bookMapper.mapToBookWithDetailsDto(bookRepository.getBook(isbn));
     }
 
-    public Book getBookFromRepo(String isbn){
+    public Book getBookFromRepo(String isbn) {
         return bookRepository.getBook(isbn);
     }
 
@@ -91,7 +88,7 @@ public class BookService {
         if (userService.validateLibrarian(id) && validateBook(bookMapper.mapCreateBookDtotoBookWithDetailsDto(dto))) {
             Book savedBook = bookMapper.MapBookSummaryDTOtoBook(bookMapper.mapCreateBookDtotoBookWithDetailsDto(dto));
             bookRepository.registerANewBook(savedBook);
-            logger.info("Book " + dto.getISBN() + " is saved" );
+            logger.info("Book " + dto.getISBN() + " is saved");
             return dto;
         } else
             throw new AuthorisationException("User without Librarian rights tried to save a book.");
@@ -113,7 +110,7 @@ public class BookService {
         if (userService.validateLibrarian(id)) {
             Book updatedBook = bookMapper.updateBookDtoToBook(dto, bookRepository.getBook(isbn));
             bookRepository.registerANewBook(updatedBook);
-            logger.info("Book " + updatedBook.getISBN() + " is updated" );
+            logger.info("Book " + updatedBook.getISBN() + " is updated");
             return bookMapper.mapToBookWithDetailsDto(updatedBook);
         } else
             throw new AuthorisationException("User without Librarian rights tried to update a book.");
@@ -121,10 +118,10 @@ public class BookService {
 
     public boolean toggleDeleteBook(String isbn, String id) {
         if (userService.validateLibrarian(id) && exists(isbn)) {
-            if(getBookFromRepo(isbn).isPassive()) {
+            if (getBookFromRepo(isbn).isPassive()) {
                 logger.info("Book : " + isbn + " put back in the collection");
             } else {
-                logger.info("Book : "+ isbn +" removed");
+                logger.info("Book : " + isbn + " removed");
             }
             getBookFromRepo(isbn).togglePassive();
             return true;

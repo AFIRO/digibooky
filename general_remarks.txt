@@ -1,0 +1,18 @@
+No logic in controllers ++
+Good code
+Tests ++
+
+My #1 take-away: Codereview eachothers code (or your own code)
+
+sometimes a little more complex than needed
+
+it was visible to me the code is written by multiple people
+* inconsistent if/else syntax
+* collection vs list
+
+do not be afraid to create your own exceptions
+
+I did not CR your tests
+at first glance:
+No tests for Lending
++ you can make your lifes easier sometimes using AssertJ (vs JUnit)

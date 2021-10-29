@@ -43,6 +43,9 @@ public class UserService {
     }
 
     private User createUser(CreateUserDto DTO) {
+        // CODEREVIEW
+        // invert  (for consistency)
+        // ... and do not do any strange things with the `else` syntax
         if (isINSSValid(DTO.getInss()) && validateMail(DTO.getEmail()) && validateLastName(DTO.getLastName()) && validateCity(DTO.getCity())) {
             logger.info("User created");
             return userMapper.toUser(DTO);
@@ -50,6 +53,8 @@ public class UserService {
             throw new IllegalArgumentException("Inputs were not valid");
     }
 
+    // CODEREVIEW Exception included
+    //  improve methodName to `assertX`
     private boolean isINSSValid(String inss) {
         if (isNotGiven(inss)) {
             throw new IllegalArgumentException("inss can not be blank or empty");
@@ -61,6 +66,8 @@ public class UserService {
         return input == null || input.isEmpty() || input.isBlank();
     }
 
+    // CODEREVIEW Exception included
+    //  improve methodName to `assertX`
     private boolean isEmailUnique(String email) {
         List<String> allMemberEmails = repo.getUsers().stream()
                 .map(User::getEmail)
@@ -72,6 +79,8 @@ public class UserService {
         return true;
     }
 
+    // CODEREVIEW Exception included
+    //  improve methodName to `assertX`
     private boolean isEmailValid(String email) {
         if (email == null || email.isEmpty() || email.isBlank())
             throw new IllegalArgumentException("Email can not be empty.");
@@ -79,12 +88,16 @@ public class UserService {
         Pattern regex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(email);
 
+        // CODEREVIEW is it Halloween yet
+        // Brrr ... this if-else without brackets gives me a shiver
         if (matcher.find())
             return true;
         else
             throw new IllegalArgumentException("This e-mail : " + email + " is not valid.");
     }
 
+    // CODEREVIEW Exception included
+    //  improve methodName to `assertX`
     private boolean isINSSunique(String inss) {
         List<String> allUserInss = repo.getUsers().stream()
                 .map(User::getINSS)
@@ -95,10 +108,14 @@ public class UserService {
         return true;
     }
 
+    // CODEREVIEW Exception included
+    //  improve methodName to `assertX`
     private boolean validateMail(String email) {
         return isEmailValid(email) && isEmailUnique(email);
     }
 
+    // CODEREVIEW Exception included
+    //  improve methodName to `assertX`
     private boolean validateLastName(String input) {
         if (isNotGiven(input)) {
             throw new IllegalArgumentException("Last name can not be empty");
@@ -106,6 +123,8 @@ public class UserService {
         return true;
     }
 
+    // CODEREVIEW Exception included
+    //  improve methodName to `assertX`
     private boolean validateCity(String input) {
         if (isNotGiven(input)) {
             throw new IllegalArgumentException("City can not be empty.");
@@ -113,6 +132,7 @@ public class UserService {
         return true;
     }
 
+    // CODEREVIEW improve methodName `isValidAdmin`
     public boolean validateAdmin(String id) {
         var list = repo.getUsers().stream()
                 .filter(User::isAdmin)
@@ -122,6 +142,7 @@ public class UserService {
         return list.contains(id);
     }
 
+    // CODEREVIEW improve methodName `isValidLibrarian`
     public boolean validateLibrarian(String id) {
         var list = repo.getUsers().stream()
                 .filter(User::isLibrarian)
@@ -131,6 +152,7 @@ public class UserService {
         return list.contains(id);
     }
 
+    // CODEREVIEW improve methodName `isValidMember`
     public boolean validateMember(String id) {
         var list = repo.getUsers().stream()
                 .filter(User::isMember)

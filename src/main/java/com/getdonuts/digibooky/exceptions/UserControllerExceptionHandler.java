@@ -13,6 +13,7 @@ public class UserControllerExceptionHandler {
 
     private final Logger logger = LoggerFactory.getLogger(UserControllerExceptionHandler.class);
 
+    // CODEREVIEW I do not think Spring Boot can distinguish @ExceptionHandler(IllegalArgumentException.class) (2x)
     @ExceptionHandler(IllegalArgumentException.class)
     protected void illegalArgumentException(IllegalArgumentException exception, HttpServletResponse response) throws Exception{
         logger.error(exception.getMessage());

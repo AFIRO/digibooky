@@ -6,7 +6,7 @@ public class Book {
     private String title;
     private Author author;
     private String summary;
-    private boolean isLent;
+    private boolean isLent; // CODEREVIEW Warning => Data duplication
     private boolean isPassive;
 
     public Book() {
