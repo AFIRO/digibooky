@@ -5,7 +5,6 @@ import com.getdonuts.digibooky.domain.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -23,12 +22,15 @@ public class BookRepository {
     }
 
     public Collection<Book> getAllBooks(){
+        // Very small suggestion: Return immutable collection
         return booksByIsbn.values().stream()
                 .filter(book -> !book.isPassive())
                 .collect(Collectors.toList());
     }
 
     public Collection<Book> getAllBooksIncludingPassiveBooks(){
+        // CODEREVIEW follow the suggestion of IntelliJ ;-)
+        // Very small suggestion: Return immutable collection
         return booksByIsbn.values().stream()
                 .collect(Collectors.toList());
     }
@@ -36,10 +38,21 @@ public class BookRepository {
 
     public Book getBook(String isbn){
         if(!booksByIsbn.containsKey(isbn)){
+            // CODEREVIEW It might be better to throw an actual NoSuchBookException
+            // This is more descriptive (linked to your domain) than the generic error below
             throw new IllegalArgumentException("ISBN should not be empty");
+            // CODEREVIEW the message can be confusing
+            // Did you mean `isbn` was null or empty ("")
+            // Or did you mean no book matches this isbn?
         }
 
+        // CODEREVIEW (Slight) risk of a NullPointerException
+        // The test above was only to check if the KEY is present
+        // The value can be null
+        // BUT if the `registerANewBook()` method is used consistently, this cannot happen
         if(booksByIsbn.get(isbn).isPassive()){
+            // CODEREVIEW It might be better to throw an actual NoSuchBookException
+            // This is more descriptive
             throw new IllegalArgumentException("The library does not contain book: " + isbn);
         }
 

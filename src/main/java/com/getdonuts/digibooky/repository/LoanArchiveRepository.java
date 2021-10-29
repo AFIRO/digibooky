@@ -8,16 +8,15 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+// CODEREVIEW Cleanup unused code
 @Repository
 public class LoanArchiveRepository {
 
     private final ConcurrentHashMap<String, Loan> archivedLoansByLoanId;
-    private final BookRepository bookRepository;
 
     @Autowired
-    public LoanArchiveRepository(BookRepository bookRepository) {
+    public LoanArchiveRepository() {
         this.archivedLoansByLoanId = new ConcurrentHashMap<>();
-        this.bookRepository = bookRepository;
     }
 
 

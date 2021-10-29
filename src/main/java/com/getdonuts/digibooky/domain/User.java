@@ -2,6 +2,8 @@ package com.getdonuts.digibooky.domain;
 
 import java.util.UUID;
 
+// CODEREVIEW Some fields are begging to become final
+// IntelliJ is a powerful tool, don't ignore it (too much)
 public class User {
 
     private String INSS;

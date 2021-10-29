@@ -13,7 +13,8 @@ public class LoanMapper {
     }
 
     public ReturnLoanDto toReturnLoanDto(Loan loan) {
-        return new ReturnLoanDto().setLoanId(loan.getLoanId())
+        return new ReturnLoanDto()
+                .setLoanId(loan.getLoanId())
                 .setUserId(loan.getUserId())
                 .setIsbn(loan.getIsbn())
                 .setDueDate(loan.getDueDate());

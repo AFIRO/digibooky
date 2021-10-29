@@ -32,18 +32,18 @@ public class LoanRepository {
 
     public Loan createLoan(Loan loan) {
 
-        if(bookRepository.getBook(loan.getIsbn()).isPassive()){
+        if (bookRepository.getBook(loan.getIsbn()).isPassive()) {
             throw new IllegalArgumentException("The library does not contain book: " + loan.getIsbn());
         }
 
-        if(loansByLoanId.containsKey(loan.getLoanId())){
+        if (loansByLoanId.containsKey(loan.getLoanId())) {
             throw new IllegalArgumentException("Book already rented");
         }
         loansByLoanId.put(loan.getLoanId(), loan);
         return loan;
     }
 
-    public Loan returnLoan(String loanId){
+    public Loan returnLoan(String loanId) {
         Loan loanToTransfer = loansByLoanId.get(loanId);
         loanArchiveRepository.addLoanToArchive(loanToTransfer);
         return loansByLoanId.remove(loanId);
@@ -56,6 +56,8 @@ public class LoanRepository {
     }
 
     public boolean containsKey(String loanId) {
+        // CODEREVIEW `containsKey` is not a descriptive name
+        // what about `containsLoan`, `loanExists`, `isValidLoan`
         return loansByLoanId.containsKey(loanId);
     }
 
@@ -63,9 +65,15 @@ public class LoanRepository {
         return new ArrayList<>(loansByLoanId.values());
     }
 
+    // CODEREVIEW
+    // This is the only place in your code where you return an optional
+    // There is no need, and it is not correctly used in the service layer
     public Optional<Loan> getLoanByIsbn(String isbn) {
-        return loansByLoanId.values().stream().
-                filter(loan -> loan.getIsbn().equals(isbn))
-                .findFirst();
+        return loansByLoanId.values().stream()
+                .filter(loan -> loan.getIsbn().equals(isbn))
+                //.findFirst();
+                .findAny();
+        // CODEREVIEW This is just a small detail :D
+        // The order is not relevant
     }
 }

@@ -5,6 +5,7 @@ public class Address {
     private final String street;
     private final String houseNumber;
     private final String postalCode;
+    // CODEREVIEW why is `city` not final?
     private String city;
 
     public Address(String street, String houseNumber, String postalCode, String city) {
@@ -12,9 +13,12 @@ public class Address {
         this.houseNumber = houseNumber;
         this.postalCode = postalCode;
         setCity(city);
+        // CODEREVIEW this can be improved
+        // this.city = assertValidCity(city);
     }
 
-    public void setCity(String city){
+    public void setCity(String city) {
+        // CODEREVIEW => Code duplication from userService.isNotGiven()
         if (city == null || city.isBlank() || city.isEmpty())
             throw new IllegalArgumentException();
         else

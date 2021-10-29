@@ -12,15 +12,18 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
-    public User toUser(CreateUserDto DTO){
+    public User toUser(CreateUserDto DTO) {
         return new User(DTO.getInss(), DTO.getFirstName(), DTO.getLastName(), DTO.getEmail(), new Address(DTO.getStreet(), DTO.getHouseNumber(), DTO.getPostcode(), DTO.getCity()));
     }
 
-    public UserDto toDTO(User user){
+    public UserDto toDTO(User user) {
         return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getAddress().getStreet(), user.getAddress().getHouseNumber(), user.getAddress().getCity(), user.getAddress().getPostalCode());
     }
 
-    public Collection<UserDto> toDTO(Collection<User> users){
-        return users.stream().map(this::toDTO).collect(Collectors.toList());
+    public Collection<UserDto> toDTO(Collection<User> users) {
+        // CODEREVIEW why not make this a List(2x)
+        return users.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 }

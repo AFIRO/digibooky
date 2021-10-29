@@ -31,12 +31,13 @@ public class BookMapper {
     }
 
     public Collection<BookDto> mapToDto(Collection<Book> books) {
+        // CODEREVIEW why not make this a List(2x)
         return books.stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
     }
 
-    public Book MapBookSummaryDTOtoBook(BookWithDetailsDto book){
+    public Book MapBookSummaryDTOtoBook(BookWithDetailsDto book) {
         return new Book()
                 .setISBN(book.getISBN())
                 .setTitle(book.getTitle())
@@ -46,7 +47,8 @@ public class BookMapper {
     }
 
     public BookWithDetailsDto mapCreateBookDtotoBookWithDetailsDto(CreateBookDto dto) {
-        return new BookWithDetailsDto().setISBN(dto.getISBN())
+        return new BookWithDetailsDto()
+                .setISBN(dto.getISBN())
                 .setAuthor(dto.getAuthor())
                 .setTitle(dto.getTitle())
                 .setSummary(dto.getSummary());
@@ -57,11 +59,11 @@ public class BookMapper {
         if (isGiven(updateBookDto.getTitle()))
             book.setTitle(updateBookDto.getTitle());
 
-        if (isGiven(updateBookDto.getAuthor().getFirstName())){
+        if (isGiven(updateBookDto.getAuthor().getFirstName())) {
             book.getAuthor().setFirstName(updateBookDto.getAuthor().getFirstName());
         }
 
-        if (isGiven(updateBookDto.getAuthor().getLastName())){
+        if (isGiven(updateBookDto.getAuthor().getLastName())) {
             book.getAuthor().setLastName(updateBookDto.getAuthor().getLastName());
         }
 

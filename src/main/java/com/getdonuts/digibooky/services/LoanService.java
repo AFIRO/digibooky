@@ -47,23 +47,27 @@ public class LoanService {
 
     public BookWithDetailsDto getBookWithDetails(String isbn) {
 
-        if(!bookService.exists(isbn)){
+        if (!bookService.exists(isbn)) {
             throw new IllegalArgumentException("Book ISBN: " + isbn + " does not exist");
         }
 
         Optional<Loan> loan = loanRepository.getLoanByIsbn(isbn);
 
-        if(loan.isPresent()){
+
+// CODEREVIEW Do not overcomplicate this
+        BookWithDetailsDto bookWithDetailsDto = bookMapper.mapToBookWithDetailsDto(bookService.getBookFromRepo(isbn));
+        if (loan.isPresent()) {
             User user = userService.getUserById(loan.get().getUserId());
             String userFullName = user.getFirstName() + " " + user.getLastName();
-            return bookMapper.mapToBookWithDetailsDto(bookService.getBookFromRepo(isbn)).setFullName(userFullName);
+            bookWithDetailsDto.setFullName(userFullName);
         }
-        return bookMapper.mapToBookWithDetailsDto(bookService.getBookFromRepo(isbn));
+        return bookWithDetailsDto;
     }
 
 
     public Loan lendBook(CreateLoanDto createLoanDto) {
-        if(isValidLoan(createLoanDto)) {
+        if (isValidLoan(createLoanDto)) {
+            // CODEREVIEW Warning: Data duplication => 2 actions needed for 1 operation
             bookService.getBookFromRepo(createLoanDto.getIsbn()).setLent(true);
             logger.info("Book " + createLoanDto.getIsbn() + " is lent by user " + createLoanDto.getUserId());
             return loanRepository.createLoan(loanMapper.toLoan(createLoanDto));
@@ -73,16 +77,20 @@ public class LoanService {
 
     public ReturnLoanDto returnLoan(String userId, String loanId) {
 
-        if (!isValidLoanId(loanId)){
+        if (!isValidLoanId(loanId)) {
             throw new IllegalArgumentException("loan Id: " + loanId + " is not valid");
         }
-
+// CODEREVIEW Warning: Data duplication in action
         Loan loanToBeReturned = loanRepository.returnLoan(loanId);
         String message = "Returned on time.";
-        if(userService.validateMember(userId) && assertUserExists(userId)){
-            if(checkIfLate(loanToBeReturned)){
+        if (userService.validateMember(userId) && assertUserExists(userId)) {
+            if (checkIfLate(loanToBeReturned)) {
                 message = generateMessage(loanToBeReturned.getDueDate());
             }
+            // If the user is not valid (aka return by the wrong person)
+            // * the loan will be removed from the loan repository
+            // * the loan will be added to the archive
+            // ! But book.isLent() will still be true !
             makeBookNotLent(loanToBeReturned.getIsbn());
 
             return loanMapper.toReturnLoanDto(loanToBeReturned).setMessage(message);
@@ -118,13 +126,16 @@ public class LoanService {
     }
 
     private void assertLibrarianIsValid(String librarianId) {
+        // CODEREVIEW Delegate this responsability to the userService
         if (!userService.validateLibrarian(librarianId)) {
             throw new AuthorisationException();
         }
     }
 
-    public boolean assertUserExists(String userId){
-        if(!userService.userExists(userId)){
+    public boolean assertUserExists(String userId) {
+        if (!userService.userExists(userId)) {
+            // CODEREVIEW create a custom Exception
+            // CODEREVIEW Delegate this responsability to the userService
             throw new IllegalArgumentException("Member with ID : " + userId + " doesn't exist");
         }
         return true;
@@ -153,27 +164,31 @@ public class LoanService {
     }
 
     public boolean bookExists(String isbn) {
-        if(!bookService.exists(isbn)){
+        if (!bookService.exists(isbn)) {
             throw new IllegalArgumentException("Book with isbn : " + isbn + " doesn't exist");
         }
         return true;
     }
 
-    public boolean isNotLent(String isbn){
-        if(bookService.getBook(isbn).isLent()){
+    public boolean isNotLent(String isbn) {
+        if (bookService.getBook(isbn).isLent()) {
             throw new IllegalArgumentException("Book with isbn : " + isbn + " is already lent");
         }
         return true;
     }
 
-    public boolean hasRightToLoan(String userId){
-        if(!userService.validateMember(userId)){
+    public boolean hasRightToLoan(String userId) {
+        if (!userService.validateMember(userId)) {
             throw new IllegalArgumentException("User with ID : " + userId + " doesn't has right to loan a book.");
         }
         return true;
     }
 
     public Loan getBookByIsbn(String isbn) {
+        // CODEREVIEW Be carefull
+        // This will throw a NoSuchElementException
+        // Better to take care of this properly (Custom exception)
+        // Otherwise it will cause a 500 to the end-user
         return loanRepository.getLoanByIsbn(isbn).get();
     }
 }

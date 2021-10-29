@@ -13,6 +13,8 @@ public class CreateBookDto {
         this(null, null, null, null);
     }
 
+    // CODEREVIEW This constructor is not used
+    // Use the powers of IntelliJ to clean up the code
     public CreateBookDto(String ISBN, String title, Author author) {
         this(ISBN, title, author, null);
     }
